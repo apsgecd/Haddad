@@ -5,8 +5,7 @@ const ASSETS_TO_CACHE = [
   "/haddad/manifest.json",      // manifest
   "/haddad/service-worker.js",// service worker itself
   "/haddad/index.html",       // your main page
-  "/haddad/haddad.mp3",        // if you have JS
-  "/haddad/script.js",        // if you have JS
+  "/haddad/haddad.mp3",       
   "/haddad/icon.png"
 ];
 
@@ -49,6 +48,7 @@ self.addEventListener("fetch", (event) => {
       .catch(() => caches.match(event.request))
   );
 });
+
 
 
 
