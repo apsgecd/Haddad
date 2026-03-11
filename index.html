@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="/branchlinker/icon.png">
+  <link rel="apple-touch-icon" href="/branchlinker/apple-touch-icon.png">
+    <title>HTML Audio Player</title>
+</head>
+<body>
+<center>
+    <h2>HTML Audio Player Example</h2>
+
+    <!-- Audio player with multiple formats for better browser support -->
+    <audio controls preload="auto" autoplay>
+        <!-- MP3 format -->
+        <source src="haddad.mp3" type="audio/mpeg">
+        <!-- OGG format -->
+        <source src="audio-file.ogg" type="audio/ogg">
+        <!-- WAV format -->
+        <source src="audio-file.wav" type="audio/wav">
+        
+        <!-- Fallback text for browsers that don't support HTML5 audio -->
+        Your browser does not support the audio element.
+    </audio>
+</center>
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/service-worker.js");
+}
+</script>
+</body>
+</html>

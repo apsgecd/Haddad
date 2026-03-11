@@ -1,0 +1,25 @@
+{
+  "name": "Haddad Player",
+  "start_url": "/haddad/",
+  "short_name": "Haddad",
+  "start_url": "/Haddad/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/Haddad/icon192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/Haddad/icon512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+
+
+
+
