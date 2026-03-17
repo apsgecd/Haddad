@@ -1,12 +1,12 @@
 const CACHE_NAME = "haddad-player-cache-v1";
 
 const ASSETS_TO_CACHE = [
-  "/haddad/",                // root
-  "/haddad/manifest.json",      // manifest
-  "/haddad/service-worker.js",// service worker itself
-  "/haddad/index.html",       // your main page
-  "/haddad/haddad.mp3",       
-  "/haddad/icon.png"
+  "/Haddad/",                // root
+  "/Haddad/manifest.json",      // manifest
+  "/Haddad/service-worker.js",// service worker itself
+  "/Haddad/index.html",       // your main page
+  "/Haddad/haddad.mp3",       
+  "/Haddad/icon.png"
 ];
 
 // Install event: cache everything
