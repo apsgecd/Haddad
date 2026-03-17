@@ -6,7 +6,8 @@ const ASSETS_TO_CACHE = [
   "/Haddad/service-worker.js",// service worker itself
   "/Haddad/index.html",       // your main page
   "/Haddad/haddad.mp3",       
-  "/Haddad/icon.png"
+  "/Haddad/icon192.png",
+  "/Haddad/icon512.png",
 ];
 
 // Install event: cache everything
