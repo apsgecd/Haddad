@@ -36,3 +36,89 @@ h2 {
     cursor: pointer;
 
     /* ✅ Better touch */
+    touch-action: manipulation;
+}
+
+/* ✅ Counter Button */
+#counterBtn {
+    position: fixed;
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: 60px;
+    font-size: 26px;
+    border-radius: 40px;
+    background: #222;
+    color: white;
+    border: none;
+
+    touch-action: manipulation;
+}
+
+/* ✅ Remove tap highlight (iOS) */
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+</style>
+</head>
+
+<body>
+
+<h2>🕌 Haddad Audio Player 🕋</h2>
+
+<!-- ✅ Audio (hidden controls) -->
+<audio id="audioPlayer" preload="auto">
+    <source src="haddad.mp3" type="audio/mpeg">
+    <source src="audio-file.ogg" type="audio/ogg">
+    <source src="audio-file.wav" type="audio/wav">
+</audio>
+
+<!-- 🔴 Play Button -->
+<button id="toggleBtn">▶</button>
+
+<!-- 🔢 Counter -->
+<button id="counterBtn">0</button>
+
+<script>
+const audio = document.getElementById("audioPlayer");
+const btn = document.getElementById("toggleBtn");
+const counterBtn = document.getElementById("counterBtn");
+
+/* ✅ Load saved counter */
+let count = localStorage.getItem("zikrCount") || 0;
+counterBtn.innerText = count;
+
+/* ✅ Play / Pause (mobile safe) */
+btn.addEventListener("click", () => {
+    if (audio.paused) {
+        audio.play().catch(() => {
+            alert("Tap again to allow audio (iPhone restriction)");
+        });
+        btn.innerText = "⏸";
+    } else {
+        audio.pause();
+        btn.innerText = "▶";
+    }
+});
+
+/* ✅ Counter */
+counterBtn.addEventListener("click", () => {
+    count++;
+    counterBtn.innerText = count;
+    localStorage.setItem("zikrCount", count);
+
+    /* ✅ Optional vibration (mobile) */
+    if (navigator.vibrate) {
+        navigator.vibrate(30);
+    }
+});
+
+/* ✅ Service worker */
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register('/Haddad/service-worker.js');
+}
+</script>
+
+</body>
+</html>
