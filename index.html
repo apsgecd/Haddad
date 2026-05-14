@@ -21,7 +21,7 @@ h2 {
     margin-top: 20px;
 }
 
-/* ✅ Big Play Button */
+/* ✅ Play Button */
 #toggleBtn {
     position: fixed;
     bottom: 60px;
@@ -33,8 +33,6 @@ h2 {
     font-size: 50px;
     border: none;
     cursor: pointer;
-
-    /* ✅ Better touch */
     touch-action: manipulation;
 }
 
@@ -51,7 +49,22 @@ h2 {
     background: #222;
     color: white;
     border: none;
+    touch-action: manipulation;
+}
 
+/* ✅ Reset Button */
+#resetBtn {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 50px;
+    font-size: 18px;
+    border-radius: 25px;
+    background: #555;
+    color: white;
+    border: none;
     touch-action: manipulation;
 }
 
@@ -66,29 +79,38 @@ button {
 
 <h2>🕌 Haddad Audio Player 🕋</h2>
 
-<!-- ✅ Audio (hidden controls) -->
+<!-- ✅ Audio -->
 <audio id="audioPlayer" preload="auto">
     <source src="haddad.mp3" type="audio/mpeg">
     <source src="audio-file.ogg" type="audio/ogg">
     <source src="audio-file.wav" type="audio/wav">
 </audio>
+
 <center>
+
 <!-- 🔴 Play Button -->
 <button id="toggleBtn">▶</button>
 
 <!-- 🔢 Counter -->
 <button id="counterBtn">0</button>
+
+<!-- 🔄 Reset Button -->
+<button id="resetBtn">Reset</button>
+
 </center>
+
 <script>
 const audio = document.getElementById("audioPlayer");
 const btn = document.getElementById("toggleBtn");
 const counterBtn = document.getElementById("counterBtn");
+const resetBtn = document.getElementById("resetBtn");
 
 /* ✅ Load saved counter */
 let count = localStorage.getItem("zikrCount") || 0;
+count = parseInt(count);
 counterBtn.innerText = count;
 
-/* ✅ Play / Pause (mobile safe) */
+/* ✅ Play / Pause */
 btn.addEventListener("click", () => {
     if (audio.paused) {
         audio.play().catch(() => {
@@ -107,9 +129,21 @@ counterBtn.addEventListener("click", () => {
     counterBtn.innerText = count;
     localStorage.setItem("zikrCount", count);
 
-    /* ✅ Optional vibration (mobile) */
     if (navigator.vibrate) {
         navigator.vibrate(30);
+    }
+});
+
+/* ✅ Reset Counter */
+resetBtn.addEventListener("click", () => {
+    if (confirm("Reset the counter?")) {
+        count = 0;
+        counterBtn.innerText = count;
+        localStorage.setItem("zikrCount", count);
+
+        if (navigator.vibrate) {
+            navigator.vibrate([50, 50, 50]);
+        }
     }
 });
 
