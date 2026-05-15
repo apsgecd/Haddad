@@ -2,10 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
-<!-- ✅ Mobile optimization -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-
 <title>Haddad</title>
 
 <style>
@@ -16,17 +13,16 @@ body {
     background: #f5f5f5;
 }
 
-/* Header */
 h2 {
     margin-top: 20px;
 }
 
-/* ✅ Play Button */
+/* ▶ Play Button */
 #toggleBtn {
     position: fixed;
     bottom: 350px;
-    left: 50%;                 /* Move to the horizontal center */
-    transform: translateX(-50%); /* Pull back by half its width */
+    left: 50%;
+    transform: translateX(-50%);
     width: 90px;
     height: 90px;
     border-radius: 50%;
@@ -35,14 +31,40 @@ h2 {
     font-size: 50px;
     border: none;
     cursor: pointer;
-    touch-action: manipulation;
 }
 
-/* ✅ Counter Button */
+/* ⏪ Back 5 sec */
+#backBtn {
+    position: fixed;
+    bottom: 350px;
+    left: calc(50% - 150px);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #444;
+    color: white;
+    font-size: 30px;
+    border: none;
+}
+
+/* ⏩ Forward 5 sec */
+#forwardBtn {
+    position: fixed;
+    bottom: 350px;
+    left: calc(50% + 150px);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #444;
+    color: white;
+    font-size: 30px;
+    border: none;
+}
+
+/* Counter Button */
 #counterBtn {
     position: fixed;
     bottom: calc(env(safe-area-inset-bottom));
-    
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
@@ -51,13 +73,12 @@ h2 {
     background: #111;
     color: white;
     border: none;
-    touch-action: manipulation;
 }
 
-/* ✅ Reset Button */
+/* Reset Button */
 #resetBtn {
     position: fixed;
-    bottom: 170px
+    bottom: 170px;
     left: 50%;
     transform: translateX(-50%);
     width: 150px;
@@ -67,10 +88,8 @@ h2 {
     background: #555;
     color: white;
     border: none;
-    touch-action: manipulation;
 }
 
-/* ✅ Remove tap highlight (iOS) */
 button {
     -webkit-tap-highlight-color: transparent;
 }
@@ -81,41 +100,34 @@ button {
 
 <h2>🕌 Haddad Audio Player 🕋</h2>
 
-<!-- ✅ Audio -->
 <audio id="audioPlayer" preload="auto">
     <source src="haddad.mp3" type="audio/mpeg">
-    <source src="audio-file.ogg" type="audio/ogg">
-    <source src="audio-file.wav" type="audio/wav">
 </audio>
 
-
-<!-- 🔴 Play Button -->
+<!-- Buttons -->
+<button id="backBtn">⏪</button>
 <button id="toggleBtn">▶</button>
+<button id="forwardBtn">⏩</button>
 
-    <!-- 🔄 Reset Button -->
 <button id="resetBtn">Reset</button>
-    
-<!-- 🔢 Counter -->
 <button id="counterBtn">0</button>
-
 
 <script>
 const audio = document.getElementById("audioPlayer");
 const btn = document.getElementById("toggleBtn");
 const counterBtn = document.getElementById("counterBtn");
 const resetBtn = document.getElementById("resetBtn");
+const backBtn = document.getElementById("backBtn");
+const forwardBtn = document.getElementById("forwardBtn");
 
-/* ✅ Load saved counter */
-let count = localStorage.getItem("zikrCount") || 0;
-count = parseInt(count);
+/* Load saved counter */
+let count = parseInt(localStorage.getItem("zikrCount") || 0);
 counterBtn.innerText = count;
 
-/* ✅ Play / Pause */
+/* Play / Pause */
 btn.addEventListener("click", () => {
     if (audio.paused) {
-        audio.play().catch(() => {
-            alert("Tap again to allow audio (iPhone restriction)");
-        });
+        audio.play().catch(() => alert("Tap again to allow audio"));
         btn.innerText = "⏸";
     } else {
         audio.pause();
@@ -123,34 +135,42 @@ btn.addEventListener("click", () => {
     }
 });
 
-/* ✅ Counter */
+/* ⏪ Back 5 seconds */
+backBtn.addEventListener("click", () => {
+    audio.currentTime = Math.max(0, audio.currentTime - 5);
+});
+
+/* ⏩ Forward 5 seconds */
+forwardBtn.addEventListener("click", () => {
+    audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
+});
+
+/* Counter + Vibration Logic */
 counterBtn.addEventListener("click", () => {
     count++;
     counterBtn.innerText = count;
     localStorage.setItem("zikrCount", count);
 
     if (navigator.vibrate) {
-        navigator.vibrate(30);
-    }
-});
-
-/* ✅ Reset Counter */
-resetBtn.addEventListener("click", () => {
-    if (confirm("Reset the counter?")) {
-        count = 0;
-        counterBtn.innerText = count;
-        localStorage.setItem("zikrCount", count);
-
-        if (navigator.vibrate) {
-            navigator.vibrate([50, 50, 50]);
+        if (count % 33 === 0) {
+            navigator.vibrate([200, 150, 200]);   // double long
+        } else if (count % 11 === 0) {
+            navigator.vibrate(200);               // long
+        } else {
+            navigator.vibrate(40);                // short
         }
     }
 });
 
-/* ✅ Service worker */
-if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register('/Haddad/service-worker.js');
-}
+/* Reset */
+resetBtn.addEventListener("click", () => {
+    if (confirm("Reset the counter?")) {
+        count = 0;
+        counterBtn.innerText = 0;
+        localStorage.setItem("zikrCount", 0);
+        navigator.vibrate([80, 80, 80]);
+    }
+});
 </script>
 
 </body>
