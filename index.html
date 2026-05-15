@@ -41,7 +41,7 @@ h2 {
 /* ✅ Counter Button */
 #counterBtn {
     position: fixed;
-    bottom: 10px;
+    bottom: calc(60px + env(safe-area-inset-bottom));
     
     left: 50%;
     transform: translateX(-50%);
@@ -58,7 +58,7 @@ h2 {
 /* ✅ Reset Button */
 #resetBtn {
     position: fixed;
-    bottom: calc(60px + env(safe-area-inset-bottom));
+    bottom: 170px
     left: 50%;
     transform: translateX(-50%);
     width: 150px;
