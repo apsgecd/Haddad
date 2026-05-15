@@ -25,6 +25,8 @@ h2 {
 #toggleBtn {
     position: fixed;
     bottom: 350px;
+    left: 50%;                 /* Move to the horizontal center */
+    transform: translateX(-50%); /* Pull back by half its width */
     width: 90px;
     height: 90px;
     border-radius: 50%;
@@ -39,7 +41,8 @@ h2 {
 /* ✅ Counter Button */
 #counterBtn {
     position: fixed;
-    bottom: calc(60px + env(safe-area-inset-bottom));
+    bottom: 10px;
+    
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
@@ -55,7 +58,7 @@ h2 {
 /* ✅ Reset Button */
 #resetBtn {
     position: fixed;
-    bottom: 10px;
+    bottom: calc(60px + env(safe-area-inset-bottom));
     left: 50%;
     transform: translateX(-50%);
     width: 150px;
@@ -86,7 +89,6 @@ button {
     <source src="audio-file.wav" type="audio/wav">
 </audio>
 
-<center>
 
 <!-- 🔴 Play Button -->
 <button id="toggleBtn">▶</button>
@@ -97,9 +99,6 @@ button {
 <!-- 🔢 Counter -->
 <button id="counterBtn">0</button>
 
-
-
-</center>
 
 <script>
 const audio = document.getElementById("audioPlayer");
