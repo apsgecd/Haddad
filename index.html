@@ -104,7 +104,10 @@ button {
 </audio>
 
 <!-- iPhone haptic click sound -->
-<audio id="hapticClick" src="click.mp3" preload="auto"></audio>
+
+    <audio id="clickShort" src="click.mp3" preload="auto"></audio>
+<audio id="clickLong" src="longclick.mp3" preload="auto"></audio>
+
 
 <!-- Buttons -->
 <button id="backBtn">⏪</button>
@@ -152,12 +155,26 @@ forwardBtn.addEventListener("click", () => {
     audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
 });
 
-/* Haptic function */
 function haptic(type) {
     if (isIOS) {
-        // iPhone fallback: play click sound
-        clickSound.currentTime = 0;
-        clickSound.play();
+        // iPhone fallback: play click sounds
+        if (type === "short") {
+            clickShort.currentTime = 0;
+            clickShort.play();
+        }
+        if (type === "long") {
+            clickLong.currentTime = 0;
+            clickLong.play();
+        }
+        if (type === "double") {
+            clickLong.currentTime = 0;
+            clickLong.play();
+
+            setTimeout(() => {
+                clickLong.currentTime = 0;
+                clickLong.play();
+            }, 200);
+        }
     } else {
         // Android vibration
         if (type === "short") navigator.vibrate(40);
@@ -165,6 +182,7 @@ function haptic(type) {
         if (type === "double") navigator.vibrate([200, 150, 200]);
     }
 }
+
 
 /* Counter + Haptics */
 counterBtn.addEventListener("click", () => {
@@ -180,6 +198,7 @@ counterBtn.addEventListener("click", () => {
         haptic("short");
     }
 });
+
 
 /* Reset */
 resetBtn.addEventListener("click", () => {
