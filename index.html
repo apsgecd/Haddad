@@ -50,7 +50,7 @@ h2 {
 #forwardBtn {
     position: fixed;
     bottom: 350px;
-    left: calc(50% + 50px);
+    left: calc(50% + 40px);
     width: 70px;
     height: 70px;
     border-radius: 50%;
@@ -178,7 +178,7 @@ function haptic(type) {
     } else {
         // Android vibration
         if (type === "short") navigator.vibrate(40);
-        if (type === "long") navigator.vibrate(200);
+        if (type === "long") navigator.vibrate(250);
         if (type === "double") navigator.vibrate([200, 150, 200]);
     }
 }
