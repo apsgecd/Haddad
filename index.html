@@ -30,7 +30,6 @@ h2 {
     color: white;
     font-size: 50px;
     border: none;
-    cursor: pointer;
 }
 
 /* ⏪ Back 5 sec */
@@ -104,6 +103,9 @@ button {
     <source src="haddad.mp3" type="audio/mpeg">
 </audio>
 
+<!-- iPhone haptic click sound -->
+<audio id="hapticClick" src="click.mp3" preload="auto"></audio>
+
 <!-- Buttons -->
 <button id="backBtn">⏪</button>
 <button id="toggleBtn">▶</button>
@@ -114,11 +116,16 @@ button {
 
 <script>
 const audio = document.getElementById("audioPlayer");
+const clickSound = document.getElementById("hapticClick");
+
 const btn = document.getElementById("toggleBtn");
 const counterBtn = document.getElementById("counterBtn");
 const resetBtn = document.getElementById("resetBtn");
 const backBtn = document.getElementById("backBtn");
 const forwardBtn = document.getElementById("forwardBtn");
+
+/* Detect iPhone */
+const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
 
 /* Load saved counter */
 let count = parseInt(localStorage.getItem("zikrCount") || 0);
@@ -145,20 +152,32 @@ forwardBtn.addEventListener("click", () => {
     audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
 });
 
-/* Counter + Vibration Logic */
+/* Haptic function */
+function haptic(type) {
+    if (isIOS) {
+        // iPhone fallback: play click sound
+        clickSound.currentTime = 0;
+        clickSound.play();
+    } else {
+        // Android vibration
+        if (type === "short") navigator.vibrate(40);
+        if (type === "long") navigator.vibrate(200);
+        if (type === "double") navigator.vibrate([200, 150, 200]);
+    }
+}
+
+/* Counter + Haptics */
 counterBtn.addEventListener("click", () => {
     count++;
     counterBtn.innerText = count;
     localStorage.setItem("zikrCount", count);
 
-    if (navigator.vibrate) {
-        if (count % 33 === 0) {
-            navigator.vibrate([200, 150, 200]);   // double long
-        } else if (count % 11 === 0) {
-            navigator.vibrate(200);               // long
-        } else {
-            navigator.vibrate(40);                // short
-        }
+    if (count % 33 === 0) {
+        haptic("double");
+    } else if (count % 11 === 0) {
+        haptic("long");
+    } else {
+        haptic("short");
     }
 });
 
@@ -168,7 +187,7 @@ resetBtn.addEventListener("click", () => {
         count = 0;
         counterBtn.innerText = 0;
         localStorage.setItem("zikrCount", 0);
-        navigator.vibrate([80, 80, 80]);
+        haptic("double");
     }
 });
 </script>
