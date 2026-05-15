@@ -4,7 +4,8 @@ const ASSETS_TO_CACHE = [
   "/Haddad/",                // root
   "/Haddad/manifest.json",      // manifest
   "/Haddad/index.html",       // your main page
-  "/Haddad/haddad.mp3",       
+  "/Haddad/haddad.mp3",      
+  "/Haddad/click.mp3",  
   "/Haddad/icon192.png",
   "/Haddad/icon512.png"
 ];
