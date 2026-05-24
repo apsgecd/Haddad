@@ -14,7 +14,61 @@ body {
 }
 
 h2 {
-    margin-top: 20px;
+    margin-top: 70px; /* Pushed down to clear top navigation */
+    text-transform: capitalize;
+}
+
+/* Top Navigation & Controls Bar */
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+    box-sizing: border-box;
+    z-index: 100;
+}
+
+.nav-cluster {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+}
+
+.action-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    border-radius: 50%;
+    border: none;
+    background: #eee;
+    cursor: pointer;
+}
+
+#infoBtn {
+    background: #007bff;
+    color: white;
+}
+
+#textViewerBtn {
+    background: #28a745;
+    color: white;
 }
 
 /* ▶ Play Button */
@@ -77,7 +131,7 @@ h2 {
 /* Reset Button */
 #resetBtn {
     position: fixed;
-    top: 75px;
+    top: 130px; /* Moved down slightly to accommodate header */
     left: 50%;
     transform: translateX(-50%);
     width: 150px;
@@ -89,6 +143,69 @@ h2 {
     border: none;
 }
 
+/* Modals / Overlays */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 1000;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+.modal-content {
+    background: white;
+    width: 100%;
+    max-width: 500px;
+    height: 80vh;
+    margin: 5vh auto;
+    border-radius: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.modal-body {
+    overflow-y: auto;
+    flex-grow: 1;
+    white-space: pre-wrap;
+    font-family: monospace;
+    background: #fafafa;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.close-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.txt-nav {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
 button {
     -webkit-tap-highlight-color: transparent;
 }
@@ -97,19 +214,29 @@ button {
 
 <body>
 
-<h2>🕌 Haddad Audio Player 🕋</h2>
+<!-- Top Control Area -->
+<div class="top-bar">
+    <div class="nav-cluster">
+        <button class="nav-btn" id="prevAudioBtn">◀</button>
+        <button class="nav-btn" id="nextAudioBtn">▶</button>
+    </div>
+    <div class="nav-cluster">
+        <button class="action-btn" id="textViewerBtn">📄</button>
+        <button class="action-btn" id="infoBtn">ℹ</button>
+    </div>
+</div>
+
+<h2 id="pageTitle">🕌 Haddad 🕋</h2>
 
 <audio id="audioPlayer" preload="auto">
-    <source src="haddad.mp3" type="audio/mpeg">
+    <source id="audioSource" src="haddad.mp3" type="audio/mpeg">
 </audio>
 
 <!-- iPhone haptic click sound -->
-
-    <audio id="clickShort" src="click.mp3" preload="auto"></audio>
+<audio id="clickShort" src="click.mp3" preload="auto"></audio>
 <audio id="clickLong" src="longclick.mp3" preload="auto"></audio>
 
-
-<!-- Buttons -->
+<!-- Controls -->
 <button id="backBtn">⏪</button>
 <button id="toggleBtn">▶</button>
 <button id="forwardBtn">⏩</button>
@@ -117,9 +244,39 @@ button {
 <button id="resetBtn">Reset</button>
 <button id="counterBtn">0</button>
 
+
+<!-- Logs Modal (ℹ) -->
+<div id="logsModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>System & Cache Logs</h3>
+            <button class="close-btn" onclick="closeModal('logsModal')">X</button>
+        </div>
+        <div id="logsBody" class="modal-body">Loading environment logs...</div>
+    </div>
+</div>
+
+<!-- Text File Viewer Modal -->
+<div id="textModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="txtFileName">Document Viewer</h3>
+            <button class="close-btn" onclick="closeModal('textModal')">X</button>
+        </div>
+        <div class="txt-nav">
+            <button class="nav-btn" id="prevTxtBtn">◀</button>
+            <button class="nav-btn" id="nextTxtBtn">▶</button>
+        </div>
+        <div id="textBody" class="modal-body">Loading file contents...</div>
+    </div>
+</div>
+
+
 <script>
+// UI Management Elements
 const audio = document.getElementById("audioPlayer");
-const clickSound = document.getElementById("hapticClick");
+const audioSource = document.getElementById("audioSource");
+const pageTitle = document.getElementById("pageTitle");
 
 const btn = document.getElementById("toggleBtn");
 const counterBtn = document.getElementById("counterBtn");
@@ -127,12 +284,126 @@ const resetBtn = document.getElementById("resetBtn");
 const backBtn = document.getElementById("backBtn");
 const forwardBtn = document.getElementById("forwardBtn");
 
+// Media arrays setup
+const audioFiles = ["haddad.mp3", "names.mp3", "yaseen.mp3", "kahf.mp3"];
+let currentAudioIndex = 0;
+
+const txtFiles = ["file1.txt", "file2.txt", "file3.txt"];
+let currentTxtIndex = 0;
+
 /* Detect iPhone */
 const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
 
 /* Load saved counter */
 let count = parseInt(localStorage.getItem("zikrCount") || 0);
 counterBtn.innerText = count;
+
+/* Dynamic Track Engine Initialization */
+function loadTrack(index) {
+    currentAudioIndex = index;
+    const filename = audioFiles[currentAudioIndex];
+    const trackName = filename.replace('.mp3', '');
+    
+    // Update DOM titles dynamic structure
+    pageTitle.innerHTML = `🕌 ${trackName} 🕋`;
+    document.title = trackName.charAt(0).toUpperCase() + trackName.slice(1);
+    
+    // Refresh audio context
+    audio.pause();
+    audioSource.src = filename;
+    audio.load();
+    btn.innerText = "▶";
+}
+
+// Track selection Event Listeners
+document.getElementById("prevAudioBtn").addEventListener("click", () => {
+    let index = currentAudioIndex - 1 < 0 ? audioFiles.length - 1 : currentAudioIndex - 1;
+    loadTrack(index);
+});
+
+document.getElementById("nextAudioBtn").addEventListener("click", () => {
+    let index = currentAudioIndex + 1 >= audioFiles.length ? 0 : currentAudioIndex + 1;
+    loadTrack(index);
+});
+
+
+/* Text Viewer Engine Initialization */
+function loadTxtFile(index) {
+    currentTxtIndex = index;
+    const currentFile = txtFiles[currentTxtIndex];
+    document.getElementById("txtFileName").innerText = currentFile;
+    
+    fetch(currentFile)
+        .then(res => {
+            if(!res.ok) throw new Error(`HTTP Status error ${res.status}`);
+            return res.text();
+        })
+        .then(text => {
+            document.getElementById("textBody").innerText = text;
+        })
+        .catch(err => {
+            document.getElementById("textBody").innerText = `Failed to process layout resource file: ${currentFile}\nVerify file availability at local root directory context.`;
+        });
+}
+
+document.getElementById("prevTxtBtn").addEventListener("click", () => {
+    let idx = currentTxtIndex - 1 < 0 ? txtFiles.length - 1 : currentTxtIndex - 1;
+    loadTxtFile(idx);
+});
+
+document.getElementById("nextTxtBtn").addEventListener("click", () => {
+    let idx = currentTxtIndex + 1 >= txtFiles.length ? 0 : currentTxtIndex + 1;
+    loadTxtFile(idx);
+});
+
+
+/* Modal Utilities */
+function openModal(id) {
+    document.getElementById(id).style.display = "block";
+}
+function closeModal(id) {
+    document.getElementById(id).style.display = "none";
+}
+
+document.getElementById("textViewerBtn").addEventListener("click", () => {
+    openModal("textModal");
+    loadTxtFile(currentTxtIndex);
+});
+
+document.getElementById("infoBtn").addEventListener("click", async () => {
+    openModal("logsModal");
+    const logContainer = document.getElementById("logsBody");
+    logContainer.innerText = "Querying environment descriptors...";
+    
+    let logs = `[System Parameters]\nTimestamp: ${new Date().toISOString()}\nPlatform OS Target: ${navigator.platform}\nIOS Device Flag: ${isIOS}\n\n`;
+    
+    // Inspect Service Worker status wrapper context
+    if ('serviceWorker' in navigator) {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        logs += `[Service Workers]\nActive scopes found: ${regs.length}\n`;
+        regs.forEach((r, i) => logs += ` -> Context [${i}]: ${r.scope}\n`);
+    } else {
+        logs += `[Service Workers]\nNot supported in runtime environment.\n`;
+    }
+    
+    // Inspect Cache API state logs
+    if ('caches' in window) {
+        logs += `\n[Cache Storage Subsystem]\n`;
+        const keys = await caches.keys();
+        if(keys.length === 0) logs += "No functional local cache stores mapped.\n";
+        for (let key of keys) {
+            logs += `Cache target: "${key}"\n`;
+            const openedCache = await caches.open(key);
+            const requests = await openedCache.keys();
+            requests.forEach(req => logs += `  -> Cached assets payload URL: ${req.url}\n`);
+        }
+    } else {
+        logs += `\n[Cache Storage Subsystem]\nNot supported in environment context.\n`;
+    }
+    
+    logContainer.innerText = logs;
+});
+
 
 /* Play / Pause */
 btn.addEventListener("click", () => {
@@ -157,32 +428,31 @@ forwardBtn.addEventListener("click", () => {
 
 function haptic(type) {
     if (isIOS) {
-        // iPhone fallback: play click sounds
+        const clickShort = document.getElementById("clickShort");
+        const clickLong = document.getElementById("clickLong");
+        
         if (type === "short") {
             clickShort.currentTime = 0;
-            clickShort.play();
+            clickShort.play().catch(()=>{});
         }
         if (type === "long") {
             clickLong.currentTime = 0;
-            clickLong.play();
+            clickLong.play().catch(()=>{});
         }
         if (type === "double") {
             clickLong.currentTime = 0;
-            clickLong.play();
-
+            clickLong.play().catch(()=>{});
             setTimeout(() => {
                 clickLong.currentTime = 0;
-                clickLong.play();
+                clickLong.play().catch(()=>{});
             }, 200);
         }
     } else {
-        // Android vibration
         if (type === "short") navigator.vibrate(40);
         if (type === "long") navigator.vibrate(250);
         if (type === "double") navigator.vibrate([200, 150, 200]);
     }
 }
-
 
 /* Counter + Haptics */
 counterBtn.addEventListener("click", () => {
@@ -198,7 +468,6 @@ counterBtn.addEventListener("click", () => {
         haptic("short");
     }
 });
-
 
 /* Reset */
 resetBtn.addEventListener("click", () => {
