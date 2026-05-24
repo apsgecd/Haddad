@@ -498,11 +498,13 @@ document.getElementById("infoBtn").addEventListener("click", async () => {
     
     let logs = `[System Parameters]\nTimestamp: ${new Date().toISOString()}\nPlatform OS Target: ${navigator.platform}\nIOS Device Flag: ${isIOS}\n\n`;
     
-    // Inspect Service Worker status wrapper context
+    // Inspect Service Worker registration state
     if ('serviceWorker' in navigator) {
         const regs = await navigator.serviceWorker.getRegistrations();
-        logs += `[Service Workers]\nActive scopes found: ${regs.length}\n`;
-        regs.forEach((r, i) => logs += ` -> Context [${i}]: ${r.scope}\n`);
+        logs += `[Service Workers]\nActive registrations found: ${regs.length}\n`;
+        regs.forEach((r, i) => {
+            logs += `  -> Scope [${i}]: ${r.scope} (Status: ${r.active ? 'Active' : 'Pending'})\n`;
+        });
     } else {
         logs += `[Service Workers]\nNot supported in runtime environment.\n`;
     }
@@ -511,12 +513,20 @@ document.getElementById("infoBtn").addEventListener("click", async () => {
     if ('caches' in window) {
         logs += `\n[Cache Storage Subsystem]\n`;
         const keys = await caches.keys();
-        if(keys.length === 0) logs += "No functional local cache stores mapped.\n";
+        if (keys.length === 0) {
+            logs += "No active local cache stores mapped.\nTip: Refresh the page once or verify HTTPS server execution contexts.\n";
+        }
         for (let key of keys) {
-            logs += `Cache target: "${key}"\n`;
+            logs += `Cache Target Name: "${key}"\n`;
             const openedCache = await caches.open(key);
             const requests = await openedCache.keys();
-            requests.forEach(req => logs += `  -> Cached assets payload URL: ${req.url}\n`);
+            
+            requests.forEach(req => {
+                // Extracts the filename out of the long absolute URL string
+                const urlParts = req.url.split('/');
+                const filename = urlParts[urlParts.length - 1] || urlParts[urlParts.length - 2] || req.url;
+                logs += `  -> Cached: ${filename}\n`;
+            });
         }
     } else {
         logs += `\n[Cache Storage Subsystem]\nNot supported in environment context.\n`;
