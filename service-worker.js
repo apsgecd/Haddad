@@ -12,9 +12,9 @@ const ASSETS_TO_CACHE = [
   "./longclick.mp3",           // Added long haptic audio fallback
   "./icon192.png",
   "./icon512.png",
-  "./file1.txt",               // Added documentation files
-  "./file2.txt",
-  "./file3.txt"
+  "./names.txt",               // Added documentation files
+  "./kahf.txt",
+  "./yaseen.txt"
 ];
 
 // Install event: cache everything
