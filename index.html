@@ -498,16 +498,8 @@ document.getElementById("infoBtn").addEventListener("click", async () => {
     
     let logs = `[System Parameters]\nTimestamp: ${new Date().toISOString()}\nPlatform OS Target: ${navigator.platform}\nIOS Device Flag: ${isIOS}\n\n`;
     
-    // Inspect Service Worker registration state
-    if ('serviceWorker' in navigator) {
-        const regs = await navigator.serviceWorker.getRegistrations();
-        logs += `[Service Workers]\nActive registrations found: ${regs.length}\n`;
-        regs.forEach((r, i) => {
-            logs += `  -> Scope [${i}]: ${r.scope} (Status: ${r.active ? 'Active' : 'Pending'})\n`;
-        });
-    } else {
-        logs += `[Service Workers]\nNot supported in runtime environment.\n`;
-    }
+        logs += `\n \n Designed by : Jaleel1618 ☺\n\n`;
+    
     
     // Inspect Cache API state logs
     if ('caches' in window) {
