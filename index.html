@@ -85,7 +85,19 @@ h2 {
     font-size: 50px;
     border: none;
 }
-
+#textBody {
+    overflow-y: auto;
+    flex-grow: 1;
+    white-space: pre-wrap;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Cleaner for Arabic than standard monospace */
+    font-size: 20px; /* Slightly larger scale for better readability of Arabic script */
+    line-height: 1.6;
+    background: #fafafa;
+    padding: 15px;
+    border-radius: 5px;
+    direction: rtl;  /* Forces text direction layout to run Right-to-Left */
+    text-align: right; /* Aligns text flow cleanly to the right boundary */
+}
 /* ⏪ Back 5 sec */
 #backBtn {
     position: fixed;
