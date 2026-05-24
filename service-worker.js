@@ -1,13 +1,20 @@
 const CACHE_NAME = "haddad-player-cache-v1";
 
 const ASSETS_TO_CACHE = [
-  "/Haddad/",                // root
-  "/Haddad/manifest.json",      // manifest
-  "/Haddad/index.html",       // your main page
-  "/Haddad/haddad.mp3",      
-  "/Haddad/click.mp3",  
-  "/Haddad/icon192.png",
-  "/Haddad/icon512.png"
+  "./",                        // root context
+  "./manifest.json",           // manifest
+  "./index.html",              // main page
+  "./haddad.mp3",              
+  "./names.mp3",               // Added new tracks
+  "./yaseen.mp3",              
+  "./kahf.mp3",                
+  "./click.mp3",  
+  "./longclick.mp3",           // Added long haptic audio fallback
+  "./icon192.png",
+  "./icon512.png",
+  "./file1.txt",               // Added documentation files
+  "./file2.txt",
+  "./file3.txt"
 ];
 
 // Install event: cache everything
@@ -39,6 +46,10 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(
     fetch(event.request)
       .then((response) => {
+        // Guard against caching invalid network responses or third-party scopes
+        if (!response || response.status !== 200 || response.type !== 'basic') {
+          return response;
+        }
         // Save fresh copy to cache
         const clone = response.clone();
         caches.open(CACHE_NAME).then((cache) => {
@@ -49,7 +60,3 @@ self.addEventListener("fetch", (event) => {
       .catch(() => caches.match(event.request))
   );
 });
-
-
-
-
