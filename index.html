@@ -68,6 +68,44 @@ h2 {
     font-size: 23px !important;
     font-weight: bold;
 }
+
+.font-profile-4 {
+    font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif !important;
+    font-size: 24px !important;
+    font-weight: 600;
+}
+
+.font-profile-5 {
+    font-family: 'Tajawal', Arial, sans-serif !important;
+    font-size: 24px !important;
+    font-weight: bold;
+}
+
+.font-profile-6 {
+    font-family: 'Noto Naskh Arabic', 'Times New Roman', serif !important;
+    font-size: 25px !important;
+    font-weight: 600;
+}
+
+.font-profile-7 {
+    font-family: 'Noto Sans Arabic', Arial, sans-serif !important;
+    font-size: 23px !important;
+    font-weight: 600;
+}
+
+.font-profile-8 {
+    font-family: 'Amiri', serif !important;
+    font-size: 26px !important;
+    font-weight: bold;
+}
+
+.font-profile-9 {
+    font-family: 'IBM Plex Sans Arabic', sans-serif !important;
+    font-size: 23px !important;
+    font-weight: 600;
+}
+
+
     
 .nav-cluster {
     display: flex;
@@ -391,7 +429,7 @@ button {
             <h3 id="txtFileName">Document Viewer</h3>
             <div class="control-cluster">
                 <!-- New Font Switching Button -->
-                <button class="action-btn" id="changeFontBtn" style="font-size: 16px; border-radius: 5px; width: auto; padding: 5px 10px;">🔤 Font</button>
+                <button class="action-btn" id="changeFontBtn" style="font-size: 16px; border-radius: 5px; width: auto; padding: 5px 10px;">🔤</button>
                 <button class="action-btn" id="invertColorsBtn" style="font-size: 16px; border-radius: 5px; width: auto; padding: 5px 10px;">🌓 Mode</button>
                 <button class="close-btn" onclick="closeModal('textModal')">Close</button>
             </div>
@@ -437,7 +475,7 @@ function updateHijriDate() {
 updateHijriDate();
     // Font profile tracking variables
 let currentFontProfile = 1;
-const totalFontProfiles = 3;
+const totalFontProfiles = 9;
 
 document.getElementById("changeFontBtn").addEventListener("click", () => {
     const textTarget = document.getElementById("textBody");
