@@ -35,6 +35,20 @@ h2 {
     z-index: 100;
 }
 
+    #hijriDateDisplay {
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+    background: rgba(255, 255, 255, 0.8);
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 15px;
+    margin-top: -10px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    direction: rtl; /* Sets natural layout order for Arabic letters and dates */
+}
+    
     /* Font Profile Classes */
 .font-profile-1 {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
@@ -334,6 +348,9 @@ button {
 
 <h2 id="pageTitle">🕌 Haddad 🕋</h2>
 
+    <!-- Dynamic Hijri Engine Element Hook -->
+<div id="hijriDateDisplay">Loading Date...</div>
+    
 <audio id="audioPlayer" preload="auto">
     <source id="audioSource" src="haddad.mp3" type="audio/mpeg">
 </audio>
@@ -389,6 +406,31 @@ button {
 
 
 <script>
+
+    /* Dynamic Hijri Engine Initialization */
+function updateHijriDate() {
+    try {
+        const options = {
+            calendar: 'islamic-umalqura',
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        };
+        
+        // Format native date to localized Arabic format structures
+        const formatter = new Intl.DateTimeFormat('ar-SA', options);
+        const currentHijriDate = formatter.format(new Date());
+        
+        document.getElementById("hijriDateDisplay").innerText = currentHijriDate;
+    } catch (e) {
+        // Fallback to generic system strings if localization errors out
+        document.getElementById("hijriDateDisplay").innerText = "";
+        console.error("Hijri dynamic formatting dropped: ", e);
+    }
+}
+
+// Fire calculation event instantly on page boot
+updateHijriDate();
     // Font profile tracking variables
 let currentFontProfile = 1;
 const totalFontProfiles = 3;
