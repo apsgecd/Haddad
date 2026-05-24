@@ -685,7 +685,53 @@ resetBtn.addEventListener("click", () => {
         haptic("double");
     }
 });
+/* PWA Installation Engine */
+let deferredPrompt;
 
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent the default browser mini-infobar from showing
+    e.preventDefault();
+    // Stash the event so we can trigger it later
+    deferredPrompt = e;
+    
+    // Dynamically transform your Reset button into an Install button!
+    const resetBtn = document.getElementById("resetBtn");
+    resetBtn.innerText = "✨ Install App";
+    resetBtn.style.background = "#28a745"; // Make it look inviting (green)
+});
+
+// Intercept your existing Reset button click event
+document.getElementById("resetBtn").addEventListener("click", async (e) => {
+    // If the browser threw the install invitation earlier, use it here
+    if (deferredPrompt) {
+        // Stop the default reset behavior
+        e.stopImmediatePropagation(); 
+        
+        // Show the native browser install prompt
+        deferredPrompt.prompt();
+        
+        // Wait for the user to accept or dismiss
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User installation response: ${outcome}`);
+        
+        // Clear our stashed event; it can only be used once
+        deferredPrompt = null;
+        
+        // Revert the button back to its standard Reset state
+        const resetBtn = document.getElementById("resetBtn");
+        resetBtn.innerText = "Reset";
+        resetBtn.style.background = "#555";
+    }
+    // If deferredPrompt is null, your original counter reset script runs normally!
+});
+
+// Optional: Hide the button adjustments if the app is successfully installed
+window.addEventListener('appinstalled', (evt) => {
+    console.log('Haddad app successfully installed to the homescreen!');
+    const resetBtn = document.getElementById("resetBtn");
+    resetBtn.innerText = "Reset";
+    resetBtn.style.background = "#555";
+});
  
 </script>
 
