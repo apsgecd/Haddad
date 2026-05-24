@@ -491,6 +491,17 @@ document.getElementById("changeFontBtn").addEventListener("click", () => {
     
     // Execute tactile audio/vibration feedback
     haptic("short");
+
+    // 5. Read the active font-family rule directly from the CSS stylesheet parsing environment
+    setTimeout(() => {
+        const computedStyles = window.getComputedStyle(textTarget);
+        const rawFontFamily = computedStyles.getPropertyValue('font-family');
+        
+        // Clean up quotes and fallbacks to extract the primary active font family name cleanly
+        const primaryFont = rawFontFamily.split(',')[0].replace(/['"]/g, '').trim();
+        
+        alert(`Active Font: ${primaryFont}`);
+    }, 50);
 });
     
        // Color inversion tracking parameter
