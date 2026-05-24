@@ -35,6 +35,23 @@ h2 {
     z-index: 100;
 }
 
+    /* Font Profile Classes */
+.font-profile-1 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    font-size: 22px !important;
+}
+
+.font-profile-2 {
+    font-family: 'Traditional Arabic', 'Times New Roman', serif !important;
+    font-size: 26px !important; /* Traditional Arabic fonts naturally render smaller, so we boost the scale */
+    font-weight: bold;
+}
+
+.font-profile-3 {
+    font-family: Arial, 'Simplified Arabic', sans-serif !important;
+    font-size: 23px !important;
+}
+    
 .nav-cluster {
     display: flex;
     align-items: center;
@@ -352,23 +369,46 @@ button {
         <div class="modal-header-full">
             <h3 id="txtFileName">Document Viewer</h3>
             <div class="control-cluster">
+                <!-- New Font Switching Button -->
+                <button class="action-btn" id="changeFontBtn" style="font-size: 16px; border-radius: 5px; width: auto; padding: 5px 10px;">🔤 Font</button>
                 <button class="action-btn" id="invertColorsBtn" style="font-size: 16px; border-radius: 5px; width: auto; padding: 5px 10px;">🌓 Mode</button>
-                <!-- Document Page Navigators -->        
-                <button class="nav-btn" id="prevTxtBtn">◀</button>
-            <button class="nav-btn" id="nextTxtBtn">▶</button>
                 <button class="close-btn" onclick="closeModal('textModal')">Close</button>
-                        
             </div>
         </div>
         
-
+        <!-- Document Page Navigators -->
+        <div class="txt-nav" style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;">
+            <button class="nav-btn" id="prevTxtBtn">◀</button>
+            <button class="nav-btn" id="nextTxtBtn">▶</button>
+        </div>
         
-        <div id="textBody" class="modal-body-full">Loading file contents...</div>
+        <div id="textBody" class="modal-body-full font-profile-1">Loading file contents...</div>
     </div>
 </div>
+        
 
 
 <script>
+    // Font profile tracking variables
+let currentFontProfile = 1;
+const totalFontProfiles = 3;
+
+document.getElementById("changeFontBtn").addEventListener("click", () => {
+    const textTarget = document.getElementById("textBody");
+    
+    // Remove the current font profile class
+    textTarget.classList.remove(`font-profile-${currentFontProfile}`);
+    
+    // Increment to the next style sheet profile
+    currentFontProfile = (currentFontProfile % totalFontProfiles) + 1;
+    
+    // Apply the fresh profile class setup
+    textTarget.classList.add(`font-profile-${currentFontProfile}`);
+    
+    // Execute tactile audio/vibration feedback
+    haptic("short");
+});
+    
        // Color inversion tracking parameter
 let isDarkTheme = false;
 
