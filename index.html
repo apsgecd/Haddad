@@ -369,6 +369,31 @@ button {
 
 
 <script>
+       // Color inversion tracking parameter
+let isDarkTheme = false;
+
+// Color Inversion Action Trigger
+document.getElementById("invertColorsBtn").addEventListener("click", () => {
+    const modalTarget = document.getElementById("textModal");
+    isDarkTheme = !isDarkTheme;
+    
+    if (isDarkTheme) {
+        modalTarget.classList.add("dark-mode-view");
+    } else {
+        modalTarget.classList.remove("dark-mode-view");
+    }
+    haptic("short"); // Provides contextual confirmation trigger
+});
+
+/* Update your existing openModal/closeModal handlers to safely manipulate layout views */
+function openModal(id) {
+    document.getElementById(id).style.display = (id === "textModal") ? "block" : "block"; 
+    // This allows .modal-full and standard logs modal to operate on display block toggling
+}
+
+function closeModal(id) {
+    document.getElementById(id).style.display = "none";
+}
 // UI Management Elements
 const audio = document.getElementById("audioPlayer");
 const audioSource = document.getElementById("audioSource");
@@ -575,31 +600,7 @@ resetBtn.addEventListener("click", () => {
     }
 });
 
-    // Color inversion tracking parameter
-let isDarkTheme = false;
-
-// Color Inversion Action Trigger
-document.getElementById("invertColorsBtn").addEventListener("click", () => {
-    const modalTarget = document.getElementById("textModal");
-    isDarkTheme = !isDarkTheme;
-    
-    if (isDarkTheme) {
-        modalTarget.classList.add("dark-mode-view");
-    } else {
-        modalTarget.classList.remove("dark-mode-view");
-    }
-    haptic("short"); // Provides contextual confirmation trigger
-});
-
-/* Update your existing openModal/closeModal handlers to safely manipulate layout views */
-function openModal(id) {
-    document.getElementById(id).style.display = (id === "textModal") ? "block" : "block"; 
-    // This allows .modal-full and standard logs modal to operate on display block toggling
-}
-
-function closeModal(id) {
-    document.getElementById(id).style.display = "none";
-}
+ 
 </script>
 
 </body>
