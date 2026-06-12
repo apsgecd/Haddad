@@ -287,11 +287,10 @@ h2 {
     /* Reset Button */
 #resetBtn {
     position: fixed;
-    bottom: 455px; /* Positioned exactly 15px above the media buttons (350px base + 90px height + 15px gap) */
-    left: 50%;
+    /* bottom: 455px; Positioned exactly 15px above the media buttons (350px base + 90px height + 15px gap) 
+    left: 50%; */
     transform: translateX(-50%);
-    width: 150px;
-    height: 50px;
+    width: 100px;
     font-size: 18px;
     border-radius: 25px;
     background: #555;
@@ -375,6 +374,7 @@ button {
     <div class="nav-cluster">
         <button class="nav-btn" id="prevAudioBtn">◀</button>
         <button class="nav-btn" id="nextAudioBtn">▶</button>
+<button id="resetBtn">Reset</button>
     </div>
     <div class="nav-cluster">
         <button class="action-btn" id="textViewerBtn">📖</button>
@@ -399,8 +399,7 @@ button {
 <button id="backBtn">⏪</button>
 <button id="toggleBtn">▶</button>
 <button id="forwardBtn">⏩</button>
-
-<button id="resetBtn">Reset</button>
+
 <button id="counterBtn">0</button>
 
 
