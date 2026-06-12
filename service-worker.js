@@ -14,7 +14,9 @@ const ASSETS_TO_CACHE = [
   "./icon512.png",
   "./names.txt",               // Added documentation files
   "./kahf.txt",
+  "./haddad.txt",
   "./yaseen.txt"
+
 ];
 
 // Install event: cache everything
