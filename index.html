@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -282,6 +281,7 @@ h2 {
     background: grey;
     color: black;
     border: none;
+    transition: background 0.3s ease;
 }
 
 
@@ -370,6 +370,7 @@ button {
 
 <body>
 
+<!-- Top Control Area -->
 <div class="top-bar">
     <div class="nav-cluster">
         <button class="nav-btn" id="prevAudioBtn">◀</button>
@@ -383,15 +384,18 @@ button {
 
 <h2 id="pageTitle">🕌 Haddad 🕋</h2>
 <br>
-    <div id="hijriDateDisplay">Loading Date...</div>
+    <!-- Dynamic Hijri Engine Element Hook -->
+<div id="hijriDateDisplay">Loading Date...</div>
     <hr>
 <audio id="audioPlayer" preload="auto">
     <source id="audioSource" src="haddad.mp3" type="audio/mpeg">
 </audio>
 
+<!-- iPhone haptic click sound -->
 <audio id="clickShort" src="click.mp3" preload="auto"></audio>
 <audio id="clickLong" src="longclick.mp3" preload="auto"></audio>
 
+<!-- Controls -->
 <button id="backBtn">⏪</button>
 <button id="toggleBtn">▶</button>
 <button id="forwardBtn">⏩</button>
@@ -399,6 +403,7 @@ button {
 <button id="counterBtn">0</button>
 
 
+<!-- Logs Modal (ℹ) -->
 <div id="logsModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -409,17 +414,21 @@ button {
     </div>
 </div>
 
+<!-- Text File Viewer Modal -->
+<!-- Full-Screen Text File Viewer Modal -->
 <div id="textModal" class="modal-full">
     <div class="modal-content-full">
         <div class="modal-header-full">
             <h3 id="txtFileName">Document Viewer</h3>
             <div class="control-cluster">
+                <!-- New Font Switching Button -->
                 <button class="action-btn" id="changeFontBtn" style="font-size: 16px; border-radius: 5px; width: auto; padding: 5px 10px;">🔤</button>
                 <button class="action-btn" id="invertColorsBtn" style="font-size: 16px; border-radius: 5px; width: auto; padding: 5px 10px;">🌓 Mode</button>
                 <button class="close-btn" onclick="closeModal('textModal')">Close</button>
             </div>
         </div>
         
+        <!-- Document Page Navigators -->
         <div class="txt-nav" style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;">
             <button class="nav-btn" id="prevTxtBtn">◀</button>
             <button class="nav-btn" id="nextTxtBtn">▶</button>
@@ -707,6 +716,9 @@ function haptic(type) {
 
 /* Counter + Haptics */
 counterBtn.addEventListener("click", () => {
+    // If an install prompt is currently pending, skip counting tasks to catch the installation step
+    if (deferredPrompt) return;
+
     count++;
     counterBtn.innerText = count;
     localStorage.setItem("zikrCount", count);
@@ -729,6 +741,7 @@ resetBtn.addEventListener("click", () => {
         haptic("double");
     }
 });
+
 /* PWA Installation Engine */
 let deferredPrompt;
 
@@ -738,17 +751,17 @@ window.addEventListener('beforeinstallprompt', (e) => {
     // Stash the event so we can trigger it later
     deferredPrompt = e;
     
-    // Dynamically transform your Reset button into an Install button!
-    const resetBtn = document.getElementById("counterBtn");
-    resetBtn.innerText = "✨ Install App";
-    resetBtn.style.background = "#28a745"; // Make it look inviting (green)
+    // Dynamically transform your Counter button into an Install button!
+    const counterBtn = document.getElementById("counterBtn");
+    counterBtn.innerText = "✨ Install App";
+    counterBtn.style.background = "#28a745"; // High visibility setup (green)
+    counterBtn.style.color = "white";
 });
 
-// Intercept your existing Reset button click event
-document.getElementById("resetBtn").addEventListener("click", async (e) => {
-    // If the browser threw the install invitation earlier, use it here
+// Intercept counter button events to trigger PWA layout options if installation is available
+document.getElementById("counterBtn").addEventListener("click", async (e) => {
     if (deferredPrompt) {
-        // Stop the default reset behavior
+        // Stop counting logic executions
         e.stopImmediatePropagation(); 
         
         // Show the native browser install prompt
@@ -761,20 +774,22 @@ document.getElementById("resetBtn").addEventListener("click", async (e) => {
         // Clear our stashed event; it can only be used once
         deferredPrompt = null;
         
-        // Revert the button back to its standard Reset state
-        const resetBtn = document.getElementById("resetBtn");
-        resetBtn.innerText = "Reset";
-        resetBtn.style.background = "#555";
+        // Revert the button back to its standard counting state structure
+        const counterBtn = document.getElementById("counterBtn");
+        counterBtn.innerText = count;
+        counterBtn.style.background = "grey";
+        counterBtn.style.color = "black";
     }
-    // If deferredPrompt is null, your original counter reset script runs normally!
 });
 
-// Optional: Hide the button adjustments if the app is successfully installed
+// Revert button properties cleanly once the app installation completes successfully
 window.addEventListener('appinstalled', (evt) => {
     console.log('Haddad app successfully installed to the homescreen!');
-    const resetBtn = document.getElementById("resetBtn");
-    resetBtn.innerText = "Reset";
-    resetBtn.style.background = "#555";
+    const counterBtn = document.getElementById("counterBtn");
+    deferredPrompt = null;
+    counterBtn.innerText = count;
+    counterBtn.style.background = "grey";
+    counterBtn.style.color = "black";
 });
  
 </script>
