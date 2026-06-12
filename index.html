@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -292,9 +293,9 @@ h2 {
     bottom: 455px; Positioned exactly 15px above the media buttons (350px base + 90px height + 15px gap) 
     left: 50%; 
     transform: translateX(-50%);
-    width: 100px;
+    width: 100px;
     font-size: 18px;
-    border-radius: 25px;
+    border-radius: 25px;
     border: none; */
 }
 
@@ -369,7 +370,6 @@ button {
 
 <body>
 
-<!-- Top Control Area -->
 <div class="top-bar">
     <div class="nav-cluster">
         <button class="nav-btn" id="prevAudioBtn">◀</button>
@@ -383,26 +383,22 @@ button {
 
 <h2 id="pageTitle">🕌 Haddad 🕋</h2>
 <br>
-    <!-- Dynamic Hijri Engine Element Hook -->
-<div id="hijriDateDisplay">Loading Date...</div>
+    <div id="hijriDateDisplay">Loading Date...</div>
     <hr>
 <audio id="audioPlayer" preload="auto">
     <source id="audioSource" src="haddad.mp3" type="audio/mpeg">
 </audio>
 
-<!-- iPhone haptic click sound -->
 <audio id="clickShort" src="click.mp3" preload="auto"></audio>
 <audio id="clickLong" src="longclick.mp3" preload="auto"></audio>
 
-<!-- Controls -->
 <button id="backBtn">⏪</button>
 <button id="toggleBtn">▶</button>
 <button id="forwardBtn">⏩</button>
-
+
 <button id="counterBtn">0</button>
 
 
-<!-- Logs Modal (ℹ) -->
 <div id="logsModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -413,21 +409,17 @@ button {
     </div>
 </div>
 
-<!-- Text File Viewer Modal -->
-<!-- Full-Screen Text File Viewer Modal -->
 <div id="textModal" class="modal-full">
     <div class="modal-content-full">
         <div class="modal-header-full">
             <h3 id="txtFileName">Document Viewer</h3>
             <div class="control-cluster">
-                <!-- New Font Switching Button -->
                 <button class="action-btn" id="changeFontBtn" style="font-size: 16px; border-radius: 5px; width: auto; padding: 5px 10px;">🔤</button>
                 <button class="action-btn" id="invertColorsBtn" style="font-size: 16px; border-radius: 5px; width: auto; padding: 5px 10px;">🌓 Mode</button>
                 <button class="close-btn" onclick="closeModal('textModal')">Close</button>
             </div>
         </div>
         
-        <!-- Document Page Navigators -->
         <div class="txt-nav" style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;">
             <button class="nav-btn" id="prevTxtBtn">◀</button>
             <button class="nav-btn" id="nextTxtBtn">▶</button>
@@ -465,9 +457,15 @@ function updateHijriDate() {
 
 // Fire calculation event instantly on page boot
 updateHijriDate();
-    // Font profile tracking variables
-let currentFontProfile = 1;
+
+// Font profile tracking variables (Updated to read persistent localStorage values)
+let currentFontProfile = parseInt(localStorage.getItem("savedFontProfile") || 1);
 const totalFontProfiles = 9;
+
+// Instantly sync the loaded profile into the HTML view container on initialization
+const initialTextTarget = document.getElementById("textBody");
+initialTextTarget.classList.remove("font-profile-1"); // Clear the hardcoded fallback
+initialTextTarget.classList.add(`font-profile-${currentFontProfile}`);
 
 document.getElementById("changeFontBtn").addEventListener("click", () => {
     const textTarget = document.getElementById("textBody");
@@ -481,10 +479,13 @@ document.getElementById("changeFontBtn").addEventListener("click", () => {
     // Apply the fresh profile class setup
     textTarget.classList.add(`font-profile-${currentFontProfile}`);
     
+    // Persist selection securely inside browser's local state ecosystem
+    localStorage.setItem("savedFontProfile", currentFontProfile);
+    
     // Execute tactile audio/vibration feedback
     haptic("short");
 
-    // 5. Read the active font-family rule directly from the CSS stylesheet parsing environment
+    // Read the active font-family rule directly from the CSS stylesheet parsing environment
     setTimeout(() => {
         const computedStyles = window.getComputedStyle(textTarget);
         const rawFontFamily = computedStyles.getPropertyValue('font-family');
@@ -738,7 +739,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
     deferredPrompt = e;
     
     // Dynamically transform your Reset button into an Install button!
-    const resetBtn = document.getElementById("resetBtn");
+    const resetBtn = document.getElementById("counterBtn");
     resetBtn.innerText = "✨ Install App";
     resetBtn.style.background = "#28a745"; // Make it look inviting (green)
 });
