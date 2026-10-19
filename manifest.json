@@ -1,25 +1,20 @@
 {
-  "name": "Adhkars",
-  "start_url": "/haddad/",
-  "short_name": "Haddad",
-  "start_url": "/Haddad/",
+  "name": "Adhkar",
+  "short_name": "Adhkar",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#ffffff",
+  "background_color": "#f5f5f5",
+  "theme_color": "#28a745",
   "icons": [
     {
-      "src": "/Haddad/icon192.png",
+      "src": "icon192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/Haddad/icon512.png",
+      "src": "icon512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ]
 }
-
-
-
-
