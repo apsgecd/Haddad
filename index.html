@@ -2,370 +2,395 @@
 <html lang="en">
 <head>
     <link rel="manifest" href="manifest.json">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-<title>Haddad</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>Haddad</title>
 
-<style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background: #f5f5f5;
-}
+    <style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background: #f5f5f5;
+    }
 
-h2 {
-    margin-top: 70px; /* Pushed down to clear top navigation */
-    text-transform: capitalize;
-}
+    h2 {
+        margin-top: 70px; /* Pushed down to clear top navigation */
+        text-transform: capitalize;
+    }
 
-/* Top Navigation & Controls Bar */
-.top-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    background: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 15px;
-    box-sizing: border-box;
-    z-index: 100;
-}
+    /* Top Navigation & Controls Bar */
+    .top-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background: #fff;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 15px;
+        box-sizing: border-box;
+        z-index: 100;
+    }
 
     #hijriDateDisplay {
-    font-size: 16px;
-    font-weight: bold;
-    color: #555;
-    background: rgba(255, 255, 255, 0.8);
-    display: inline-block;
-    padding: 6px 16px;
-    border-radius: 15px;
-    margin-top: -10px;
-    margin-bottom: 15px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    direction: rtl; /* Sets natural layout order for Arabic letters and dates */
-}
-    
+        font-size: 16px;
+        font-weight: bold;
+        color: #555;
+        background: rgba(255, 255, 255, 0.8);
+        display: inline-block;
+        padding: 6px 16px;
+        border-radius: 15px;
+        margin-top: -10px;
+        margin-bottom: 15px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        direction: rtl; /* Sets natural layout order for Arabic letters and dates */
+    }
+        
     /* Font Profile Classes */
-.font-profile-1 {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
-    font-size: 22px !important;
+    .font-profile-1 {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+        font-size: 22px !important;
     }
 
-.font-profile-2 {
-    font-family: 'Traditional Arabic', 'Times New Roman', serif !important;
-    font-size: 23px !important; /* Traditional Arabic fonts naturally render smaller, so we boost the scale */
-    font-weight: bold;
-}
-
-.font-profile-3 {
-    font-family: Arial, 'Simplified Arabic', sans-serif !important;
-    font-size: 24px !important;
+    .font-profile-2 {
+        font-family: 'Traditional Arabic', 'Times New Roman', serif !important;
+        font-size: 23px !important;
+        font-weight: bold;
     }
 
-.font-profile-4 {
-    font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif !important;
-    font-size: 20px !important;
+    .font-profile-3 {
+        font-family: Arial, 'Simplified Arabic', sans-serif !important;
+        font-size: 24px !important;
     }
 
-.font-profile-5 {
-    font-family: 'Tajawal', Arial, sans-serif !important;
-    font-size: 18px !important;
-    
-}
-
-.font-profile-6 {
-    font-family: 'Noto Naskh Arabic', 'Times New Roman', serif !important;
-    font-size: 16px !important;
+    .font-profile-4 {
+        font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif !important;
+        font-size: 20px !important;
     }
 
-.font-profile-7 {
-    font-family: 'Noto Sans Arabic', Arial, sans-serif !important;
-    font-size: 14px !important;
-}
+    .font-profile-5 {
+        font-family: 'Tajawal', Arial, sans-serif !important;
+        font-size: 18px !important;
+    }
 
-.font-profile-8 {
-    font-family: 'Amiri', serif !important;
-    font-size: 12px !important;
-    font-weight: bold;
-}
+    .font-profile-6 {
+        font-family: 'Noto Naskh Arabic', 'Times New Roman', serif !important;
+        font-size: 16px !important;
+    }
 
-.font-profile-9 {
-    font-family: 'IBM Plex Sans Arabic', sans-serif !important;
-    font-size: 20px !important;
-}
+    .font-profile-7 {
+        font-family: 'Noto Sans Arabic', Arial, sans-serif !important;
+        font-size: 14px !important;
+    }
 
+    .font-profile-8 {
+        font-family: 'Amiri', serif !important;
+        font-size: 12px !important;
+        font-weight: bold;
+    }
 
-    
-.nav-cluster {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+    .font-profile-9 {
+        font-family: 'IBM Plex Sans Arabic', sans-serif !important;
+        font-size: 20px !important;
+    }
 
-.nav-btn {
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-    border-radius: 50%;
-    border: 1px solid #ccc;
-    background: #fff;
-    cursor: pointer;
-}
+    .nav-cluster {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 
-.action-btn {
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
-    border-radius: 50%;
-    border: none;
-    background: #eee;
-    cursor: pointer;
-}
+    .nav-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        border-radius: 50%;
+        border: 1px solid #ccc;
+        background: #fff;
+        cursor: pointer;
+    }
 
-#infoBtn {
-    background: #007bff;
-    color: white;
-}
+    .action-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+        border-radius: 50%;
+        border: none;
+        background: #eee;
+        cursor: pointer;
+    }
 
-#textViewerBtn {
-    background: #28a745;
-    color: white;
-}
+    #infoBtn {
+        background: #007bff;
+        color: white;
+    }
 
-/* ▶ Play Button */
-#toggleBtn {
-    position: fixed;
-    bottom: 350px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    background: red;
-    color: white;
-    font-size: 50px;
-    border: none;
-}
-#textBody {
-    overflow-y: auto;
-    flex-grow: 1;
-    white-space: pre-wrap;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Cleaner for Arabic than standard monospace */
-    font-size: 20px; /* Slightly larger scale for better readability of Arabic script */
-    line-height: 1.6;
-    background: #fafafa;
-    padding: 15px;
-    border-radius: 5px;
-    direction: rtl;  /* Forces text direction layout to run Right-to-Left */
-    text-align: right; /* Aligns text flow cleanly to the right boundary */
-}
-/* ⏪ Back 5 sec */
-#backBtn {
-    position: fixed;
-    bottom: 350px;
-    left: calc(50% - 110px);
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: #444;
-    color: white;
-    font-size: 30px;
-    border: none;
-}
+    #textViewerBtn {
+        background: #28a745;
+        color: white;
+    }
 
-/* ⏩ Forward 5 sec */
-#forwardBtn {
-    position: fixed;
-    bottom: 350px;
-    left: calc(50% + 40px);
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: #444;
-    color: white;
-    font-size: 30px;
-    border: none;
-}
-.modal-full {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #ffffff;
-    z-index: 2000; /* Ensures visibility over player layout controls */
-    box-sizing: border-box;
-}
+    #pdfViewerBtn {
+        background: #dc3545;
+        color: white;
+    }
 
-.modal-content-full {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: env(safe-area-inset-top, 15px) 15px env(safe-area-inset-bottom, 15px) 15px;
-    box-sizing: border-box;
-    background: inherit; /* Dynamically inherits parent inversion state */
-}
+    /* ⏱ Audio Time Display */
+    #audioTimeDisplay {
+        position: fixed;
+        bottom: 450px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 5px 15px;
+        border-radius: 20px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        z-index: 10;
+        letter-spacing: 1px;
+    }
 
-.modal-header-full {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ccc;
-    background: inherit;
-}
+    /* ▶ Play Button */
+    #toggleBtn {
+        position: fixed;
+        bottom: 350px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background: red;
+        color: white;
+        font-size: 50px;
+        border: none;
+    }
 
-.modal-header-full h3 {
-    margin: 0;
-    font-size: 18px;
-}
+    #textBody {
+        overflow-y: auto;
+        flex-grow: 1;
+        white-space: pre-wrap;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 20px;
+        line-height: 1.6;
+        background: #fafafa;
+        padding: 15px;
+        border-radius: 5px;
+        direction: rtl;
+        text-align: right;
+    }
 
-.control-cluster {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
+    /* ⏪ Back 5 sec */
+    #backBtn {
+        position: fixed;
+        bottom: 350px;
+        left: calc(50% - 110px);
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: #444;
+        color: white;
+        font-size: 30px;
+        border: none;
+    }
 
-/* Invert Color Mode Adjustments */
-.dark-mode-view {
-    background: #121212 !important;
-    color: #f0f0f0 !important;
-}
-.dark-mode-view .modal-body-full {
-    background: #1e1e1e !important;
-    color: #f0f0f0 !important;
-    border-color: #333;
-}
-.dark-mode-view button {
-    background: #333 !important;
-    color: #fff !important;
-    border-color: #555 !important;
-}
-.dark-mode-view .close-btn {
-    background: #b22222 !important;
-}
+    /* ⏩ Forward 5 sec */
+    #forwardBtn {
+        position: fixed;
+        bottom: 350px;
+        left: calc(50% + 40px);
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: #444;
+        color: white;
+        font-size: 30px;
+        border: none;
+    }
 
-/* Maximized Text Content Window */
-.modal-body-full {
-    overflow-y: auto;
-    flex-grow: 1;
-    white-space: pre-wrap;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 22px; /* Amplified visibility scale for Arabic script */
-    line-height: 1.7;
-    background: #fafafa;
-    padding: 15px;
-    margin-top: 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    direction: rtl;
-    text-align: right;
-    -webkit-overflow-scrolling: touch; /* Smooth inertial scrolling on iOS devices */
-}
-/* Counter Button */
-#counterBtn {
-    position: fixed;
-    bottom: calc(env(safe-area-inset-bottom));
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    height: 300px;
-    font-size: 40px;
-    background: grey;
-    color: black;
-    border: none;
-    transition: background 0.3s ease;
-}
+    .modal-full {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #ffffff;
+        z-index: 2000;
+        box-sizing: border-box;
+    }
 
+    .modal-content-full {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: env(safe-area-inset-top, 15px) 15px env(safe-area-inset-bottom, 15px) 15px;
+        box-sizing: border-box;
+        background: inherit;
+    }
 
-    /* Reset Button */
-#resetBtn {
-    /* background: #555;
-    color: white;
-    position: fixed;
-    bottom: 455px; Positioned exactly 15px above the media buttons (350px base + 90px height + 15px gap) 
-    left: 50%; 
-    transform: translateX(-50%);
-    width: 100px;
-    font-size: 18px;
-    border-radius: 25px;
-    border: none; */
-}
+    .modal-header-full {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ccc;
+        background: inherit;
+    }
 
-/* Modals / Overlays */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.7);
-    z-index: 1000;
-    box-sizing: border-box;
-    padding: 20px;
-}
+    .modal-header-full h3 {
+        margin: 0;
+        font-size: 18px;
+    }
 
-.modal-content {
-    background: white;
-    width: 100%;
-    max-width: 500px;
-    height: 80vh;
-    margin: 5vh auto;
-    border-radius: 10px;
-    padding: 20px;
-    box-sizing: border-box;
-    position: relative;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-}
+    .control-cluster {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
 
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-}
+    /* Dark Mode Adjustments */
+    .dark-mode-view {
+        background: #121212 !important;
+        color: #f0f0f0 !important;
+    }
+    .dark-mode-view .modal-body-full {
+        background: #1e1e1e !important;
+        color: #f0f0f0 !important;
+        border-color: #333;
+    }
+    .dark-mode-view button {
+        background: #333 !important;
+        color: #fff !important;
+        border-color: #555 !important;
+    }
+    .dark-mode-view .close-btn {
+        background: #b22222 !important;
+    }
 
-.modal-body {
-    overflow-y: auto;
-    flex-grow: 1;
-    white-space: pre-wrap;
-    font-family: monospace;
-    background: #fafafa;
-    padding: 10px;
-    border-radius: 5px;
-}
+    .modal-body-full {
+        overflow-y: auto;
+        flex-grow: 1;
+        white-space: pre-wrap;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 22px;
+        line-height: 1.7;
+        background: #fafafa;
+        padding: 15px;
+        margin-top: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        direction: rtl;
+        text-align: right;
+        -webkit-overflow-scrolling: touch;
+    }
 
-.close-btn {
-    background: #dc3545;
-    color: white;
-    border: none;
-    padding: 5px 15px;
-    border-radius: 5px;
-    font-size: 16px;
-}
+    /* PDF Embed Frame Container */
+    .pdf-body-full {
+        flex-grow: 1;
+        width: 100%;
+        height: 100%;
+        margin-top: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        background: #525659;
+    }
 
-.txt-nav {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-}
+    .pdf-frame {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 8px;
+    }
 
-button {
-    -webkit-tap-highlight-color: transparent;
-}
-</style>
+    /* Counter Button */
+    #counterBtn {
+        position: fixed;
+        bottom: calc(env(safe-area-inset-bottom));
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        height: 300px;
+        font-size: 40px;
+        background: grey;
+        color: black;
+        border: none;
+        transition: background 0.3s ease;
+    }
+
+    /* Modals / Overlays */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+        z-index: 1000;
+        box-sizing: border-box;
+        padding: 20px;
+    }
+
+    .modal-content {
+        background: white;
+        width: 100%;
+        max-width: 500px;
+        height: 80vh;
+        margin: 5vh auto;
+        border-radius: 10px;
+        padding: 20px;
+        box-sizing: border-box;
+        position: relative;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+
+    .modal-body {
+        overflow-y: auto;
+        flex-grow: 1;
+        white-space: pre-wrap;
+        font-family: monospace;
+        background: #fafafa;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .close-btn {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 5px 15px;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .txt-nav {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    button {
+        -webkit-tap-highlight-color: transparent;
+    }
+    </style>
 </head>
 
 <body>
@@ -375,33 +400,34 @@ button {
     <div class="nav-cluster">
         <button class="nav-btn" id="prevAudioBtn">◀</button>
         <button class="nav-btn" id="nextAudioBtn">▶</button>
-    </div><button class="action-btn" id="resetBtn">📿</button>
+    </div>
+    <button class="action-btn" id="resetBtn">📿</button>
     <div class="nav-cluster">
-        <button class="action-btn" id="textViewerBtn">📖</button>
-        <button class="action-btn" id="infoBtn">ℹ</button>
+        <button class="action-btn" id="pdfViewerBtn" title="PDF Viewer">📄</button>
+        <button class="action-btn" id="textViewerBtn" title="Text Viewer">📖</button>
+        <button class="action-btn" id="infoBtn" title="Logs & Info">ℹ</button>
     </div>
 </div>
 
 <h2 id="pageTitle">🕌 Haddad 🕋</h2>
 <br>
-    <!-- Dynamic Hijri Engine Element Hook -->
 <div id="hijriDateDisplay">Loading Date...</div>
-    <hr>
+<hr>
+
 <audio id="audioPlayer" preload="auto">
     <source id="audioSource" src="haddad.mp3" type="audio/mpeg">
 </audio>
 
-<!-- iPhone haptic click sound -->
 <audio id="clickShort" src="click.mp3" preload="auto"></audio>
 <audio id="clickLong" src="longclick.mp3" preload="auto"></audio>
 
-<!-- Controls -->
+<div id="audioTimeDisplay">00:00 / 00:00</div>
+
 <button id="backBtn">⏪</button>
 <button id="toggleBtn">▶</button>
 <button id="forwardBtn">⏩</button>
 
 <button id="counterBtn">0</button>
-
 
 <!-- Logs Modal (ℹ) -->
 <div id="logsModal" class="modal">
@@ -414,21 +440,18 @@ button {
     </div>
 </div>
 
-<!-- Text File Viewer Modal -->
 <!-- Full-Screen Text File Viewer Modal -->
 <div id="textModal" class="modal-full">
     <div class="modal-content-full">
         <div class="modal-header-full">
             <h3 id="txtFileName">Document Viewer</h3>
             <div class="control-cluster">
-                <!-- New Font Switching Button -->
                 <button class="action-btn" id="changeFontBtn" style="font-size: 16px; border-radius: 5px; width: auto; padding: 5px 10px;">🔤</button>
                 <button class="action-btn" id="invertColorsBtn" style="font-size: 16px; border-radius: 5px; width: auto; padding: 5px 10px;">🌓 Mode</button>
                 <button class="close-btn" onclick="closeModal('textModal')">Close</button>
             </div>
         </div>
         
-        <!-- Document Page Navigators -->
         <div class="txt-nav" style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;">
             <button class="nav-btn" id="prevTxtBtn">◀</button>
             <button class="nav-btn" id="nextTxtBtn">▶</button>
@@ -437,12 +460,38 @@ button {
         <div id="textBody" class="modal-body-full font-profile-1">Loading file contents...</div>
     </div>
 </div>
-        
 
+<!-- Full-Screen PDF Viewer Modal -->
+<div id="pdfModal" class="modal-full">
+    <div class="modal-content-full">
+        <div class="modal-header-full">
+            <h3 id="pdfFileName">PDF Viewer</h3>
+            <div class="control-cluster">
+                <button class="close-btn" onclick="closeModal('pdfModal')">Close</button>
+            </div>
+        </div>
+        
+        <div class="txt-nav" style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;">
+            <button class="nav-btn" id="prevPdfBtn">◀</button>
+            <button class="nav-btn" id="nextPdfBtn">▶</button>
+        </div>
+        
+        <div class="pdf-body-full">
+            <iframe id="pdfFrame" class="pdf-frame" src=""></iframe>
+        </div>
+    </div>
+</div>
 
 <script>
+/* 🌐 Register Service Worker for Offline Execution */
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('ServiceWorker registered successfully:', reg.scope))
+            .catch(err => console.error('ServiceWorker registration failed:', err));
+    });
+}
 
-    /* Dynamic Hijri Engine Initialization */
 function updateHijriDate() {
     try {
         const options = {
@@ -451,90 +500,62 @@ function updateHijriDate() {
             month: 'long',
             year: 'numeric'
         };
-        
-        // Format native date to localized Arabic format structures
         const formatter = new Intl.DateTimeFormat('ar-SA', options);
-        const currentHijriDate = formatter.format(new Date());
-        
-        document.getElementById("hijriDateDisplay").innerText = currentHijriDate;
+        document.getElementById("hijriDateDisplay").innerText = formatter.format(new Date());
     } catch (e) {
-        // Fallback to generic system strings if localization errors out
         document.getElementById("hijriDateDisplay").innerText = "";
-        console.error("Hijri dynamic formatting dropped: ", e);
     }
 }
-
-// Fire calculation event instantly on page boot
 updateHijriDate();
 
-// Font profile tracking variables (Updated to read persistent localStorage values)
 let currentFontProfile = parseInt(localStorage.getItem("savedFontProfile") || 1);
 const totalFontProfiles = 9;
 
-// Instantly sync the loaded profile into the HTML view container on initialization
 const initialTextTarget = document.getElementById("textBody");
-initialTextTarget.classList.remove("font-profile-1"); // Clear the hardcoded fallback
+initialTextTarget.classList.remove("font-profile-1");
 initialTextTarget.classList.add(`font-profile-${currentFontProfile}`);
 
 document.getElementById("changeFontBtn").addEventListener("click", () => {
     const textTarget = document.getElementById("textBody");
-    
-    // Remove the current font profile class
     textTarget.classList.remove(`font-profile-${currentFontProfile}`);
-    
-    // Increment to the next style sheet profile
     currentFontProfile = (currentFontProfile % totalFontProfiles) + 1;
-    
-    // Apply the fresh profile class setup
     textTarget.classList.add(`font-profile-${currentFontProfile}`);
-    
-    // Persist selection securely inside browser's local state ecosystem
     localStorage.setItem("savedFontProfile", currentFontProfile);
-    
-    // Execute tactile audio/vibration feedback
     haptic("short");
 
-    // Read the active font-family rule directly from the CSS stylesheet parsing environment
     setTimeout(() => {
         const computedStyles = window.getComputedStyle(textTarget);
         const rawFontFamily = computedStyles.getPropertyValue('font-family');
-        
-        // Clean up quotes and fallbacks to extract the primary active font family name cleanly
         const primaryFont = rawFontFamily.split(',')[0].replace(/['"]/g, '').trim();
-        
         alert(`Active Font: ${primaryFont}`);
     }, 50);
 });
-    
-       // Color inversion tracking parameter
+        
 let isDarkTheme = false;
 
-// Color Inversion Action Trigger
 document.getElementById("invertColorsBtn").addEventListener("click", () => {
     const modalTarget = document.getElementById("textModal");
     isDarkTheme = !isDarkTheme;
-    
     if (isDarkTheme) {
         modalTarget.classList.add("dark-mode-view");
     } else {
         modalTarget.classList.remove("dark-mode-view");
     }
-    haptic("short"); // Provides contextual confirmation trigger
+    haptic("short");
 });
 
-/* Update your existing openModal/closeModal handlers to safely manipulate layout views */
 function openModal(id) {
-    document.getElementById(id).style.display = (id === "textModal") ? "block" : "block"; 
-    // This allows .modal-full and standard logs modal to operate on display block toggling
+    document.getElementById(id).style.display = "block";
 }
 
 function closeModal(id) {
     document.getElementById(id).style.display = "none";
 }
-// UI Management Elements
+
 const audio = document.getElementById("audioPlayer");
 const audioSource = document.getElementById("audioSource");
 const pageTitle = document.getElementById("pageTitle");
+const audioTimeDisplay = document.getElementById("audioTimeDisplay");
 
 const btn = document.getElementById("toggleBtn");
 const counterBtn = document.getElementById("counterBtn");
@@ -542,38 +563,57 @@ const resetBtn = document.getElementById("resetBtn");
 const backBtn = document.getElementById("backBtn");
 const forwardBtn = document.getElementById("forwardBtn");
 
-    // Media arrays setup
 const audioFiles = ["haddad.mp3", "names.mp3", "yaseen.mp3", "kahf.mp3"];
 let currentAudioIndex = 0;
 
 const txtFiles = ["yaseen.txt", "kahf.txt", "99names.txt", "haddad.txt", "salam-rasool.txt"];
 let currentTxtIndex = 0;
+
+const pdfFiles = [
+    "pdf/Asmaul-Badar.pdf",
+    "pdf/Dua.pdf",
+    "pdf/Khatahm-Quran-Dua.pdf",
+    "pdf/Manqoos-Mouleed.pdf",
+    "pdf/Mayyith-Prayer.pdf"
+];
+let currentPdfIndex = 0;
     
-/* Detect iPhone */
 const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
 
-/* Load saved counter */
 let count = parseInt(localStorage.getItem("zikrCount") || 0);
 counterBtn.innerText = count;
 
-/* Dynamic Track Engine Initialization */
+function formatTime(seconds) {
+    if (isNaN(seconds) || seconds < 0) return "00:00";
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+}
+
+function updateAudioTime() {
+    const current = formatTime(audio.currentTime);
+    const duration = formatTime(audio.duration);
+    audioTimeDisplay.innerText = `${current} / ${duration}`;
+}
+
+audio.addEventListener("timeupdate", updateAudioTime);
+audio.addEventListener("loadedmetadata", updateAudioTime);
+
 function loadTrack(index) {
     currentAudioIndex = index;
     const filename = audioFiles[currentAudioIndex];
     const trackName = filename.replace('.mp3', '');
     
-    // Update DOM titles dynamic structure
     pageTitle.innerHTML = `🕌 ${trackName} 🕋`;
     document.title = trackName.charAt(0).toUpperCase() + trackName.slice(1);
     
-    // Refresh audio context
     audio.pause();
     audioSource.src = filename;
     audio.load();
     btn.innerText = "▶";
+    audioTimeDisplay.innerText = "00:00 / 00:00";
 }
 
-// Track selection Event Listeners
 document.getElementById("prevAudioBtn").addEventListener("click", () => {
     let index = currentAudioIndex - 1 < 0 ? audioFiles.length - 1 : currentAudioIndex - 1;
     loadTrack(index);
@@ -584,8 +624,6 @@ document.getElementById("nextAudioBtn").addEventListener("click", () => {
     loadTrack(index);
 });
 
-
-/* Text Viewer Engine Initialization */
 function loadTxtFile(index) {
     currentTxtIndex = index;
     const currentFile = txtFiles[currentTxtIndex];
@@ -614,18 +652,32 @@ document.getElementById("nextTxtBtn").addEventListener("click", () => {
     loadTxtFile(idx);
 });
 
-
-/* Modal Utilities */
-function openModal(id) {
-    document.getElementById(id).style.display = "block";
-}
-function closeModal(id) {
-    document.getElementById(id).style.display = "none";
-}
-
 document.getElementById("textViewerBtn").addEventListener("click", () => {
     openModal("textModal");
     loadTxtFile(currentTxtIndex);
+});
+
+function loadPdfFile(index) {
+    currentPdfIndex = index;
+    const currentFile = pdfFiles[currentPdfIndex];
+    const cleanName = currentFile.replace('pdf/', '');
+    document.getElementById("pdfFileName").innerText = cleanName;
+    document.getElementById("pdfFrame").src = currentFile;
+}
+
+document.getElementById("prevPdfBtn").addEventListener("click", () => {
+    let idx = currentPdfIndex - 1 < 0 ? pdfFiles.length - 1 : currentPdfIndex - 1;
+    loadPdfFile(idx);
+});
+
+document.getElementById("nextPdfBtn").addEventListener("click", () => {
+    let idx = currentPdfIndex + 1 >= pdfFiles.length ? 0 : currentPdfIndex + 1;
+    loadPdfFile(idx);
+});
+
+document.getElementById("pdfViewerBtn").addEventListener("click", () => {
+    openModal("pdfModal");
+    loadPdfFile(currentPdfIndex);
 });
 
 document.getElementById("infoBtn").addEventListener("click", async () => {
@@ -633,17 +685,14 @@ document.getElementById("infoBtn").addEventListener("click", async () => {
     const logContainer = document.getElementById("logsBody");
     logContainer.innerText = "Querying environment descriptors...";
     
-    let logs = `[System Parameters]\nTimestamp: ${new Date().toISOString()}\nPlatform OS Target: ${navigator.platform}\nIOS Device Flag: ${isIOS}\n\n`;
+    let logs = `[System Parameters]\nTimestamp: ${new Date().toISOString()}\nPlatform OS Target: ${navigator.platform}\nIOS Device Flag: ${isIOS}\nServiceWorker Active: ${'serviceWorker' in navigator && !!navigator.serviceWorker.controller}\n\n`;
+    logs += `Designed by : Jaleel1618 ☺\n\n`;
     
-        logs += `\n \n Designed by : Jaleel1618 ☺\n\n`;
-    
-    
-    // Inspect Cache API state logs
     if ('caches' in window) {
-        logs += `\n[Cache Storage Subsystem]\n`;
+        logs += `[Cache Storage Subsystem]\n`;
         const keys = await caches.keys();
         if (keys.length === 0) {
-            logs += "No active local cache stores mapped.\nTip: Refresh the page once or verify HTTPS server execution contexts.\n";
+            logs += "No active local cache stores mapped.\nTip: Refresh the page once to trigger ServiceWorker caching.\n";
         }
         for (let key of keys) {
             logs += `Cache Target Name: "${key}"\n`;
@@ -651,7 +700,6 @@ document.getElementById("infoBtn").addEventListener("click", async () => {
             const requests = await openedCache.keys();
             
             requests.forEach(req => {
-                // Extracts the filename out of the long absolute URL string
                 const urlParts = req.url.split('/');
                 const filename = urlParts[urlParts.length - 1] || urlParts[urlParts.length - 2] || req.url;
                 logs += `  -> Cached: ${filename}\n`;
@@ -664,8 +712,6 @@ document.getElementById("infoBtn").addEventListener("click", async () => {
     logContainer.innerText = logs;
 });
 
-
-/* Play / Pause */
 btn.addEventListener("click", () => {
     if (audio.paused) {
         audio.play().catch(() => alert("Tap again to allow audio"));
@@ -676,12 +722,10 @@ btn.addEventListener("click", () => {
     }
 });
 
-/* ⏪ Back 5 seconds */
 backBtn.addEventListener("click", () => {
     audio.currentTime = Math.max(0, audio.currentTime - 5);
 });
 
-/* ⏩ Forward 5 seconds */
 forwardBtn.addEventListener("click", () => {
     audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
 });
@@ -714,9 +758,7 @@ function haptic(type) {
     }
 }
 
-/* Counter + Haptics */
 counterBtn.addEventListener("click", () => {
-    // If an install prompt is currently pending, skip counting tasks to catch the installation step
     if (deferredPrompt) return;
 
     count++;
@@ -732,7 +774,6 @@ counterBtn.addEventListener("click", () => {
     }
 });
 
-/* Reset */
 resetBtn.addEventListener("click", () => {
     if (confirm("Reset the counter?")) {
         count = 0;
@@ -742,39 +783,25 @@ resetBtn.addEventListener("click", () => {
     }
 });
 
-/* PWA Installation Engine */
 let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', (e) => {
-    // Prevent the default browser mini-infobar from showing
     e.preventDefault();
-    // Stash the event so we can trigger it later
     deferredPrompt = e;
     
-    // Dynamically transform your Counter button into an Install button!
     const counterBtn = document.getElementById("counterBtn");
     counterBtn.innerText = "✨ Install App";
-    counterBtn.style.background = "#28a745"; // High visibility setup (green)
+    counterBtn.style.background = "#28a745";
     counterBtn.style.color = "white";
 });
 
-// Intercept counter button events to trigger PWA layout options if installation is available
 document.getElementById("counterBtn").addEventListener("click", async (e) => {
     if (deferredPrompt) {
-        // Stop counting logic executions
         e.stopImmediatePropagation(); 
-        
-        // Show the native browser install prompt
         deferredPrompt.prompt();
-        
-        // Wait for the user to accept or dismiss
         const { outcome } = await deferredPrompt.userChoice;
-        console.log(`User installation response: ${outcome}`);
-        
-        // Clear our stashed event; it can only be used once
         deferredPrompt = null;
         
-        // Revert the button back to its standard counting state structure
         const counterBtn = document.getElementById("counterBtn");
         counterBtn.innerText = count;
         counterBtn.style.background = "grey";
@@ -782,16 +809,13 @@ document.getElementById("counterBtn").addEventListener("click", async (e) => {
     }
 });
 
-// Revert button properties cleanly once the app installation completes successfully
 window.addEventListener('appinstalled', (evt) => {
-    console.log('Haddad app successfully installed to the homescreen!');
     const counterBtn = document.getElementById("counterBtn");
     deferredPrompt = null;
     counterBtn.innerText = count;
     counterBtn.style.background = "grey";
     counterBtn.style.color = "black";
 });
- 
 </script>
 
 </body>
