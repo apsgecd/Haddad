@@ -33,7 +33,7 @@
         justify-content: space-between;
         padding: 0 15px;
         box-sizing: border-box;
-        z-index: 100;
+        z-index: 1000;
     }
 
     #hijriDateDisplay {
@@ -91,27 +91,10 @@
     #textViewerBtn { background: #28a745; color: white; }
     #pdfViewerBtn { background: #dc3545; color: white; }
 
-    /* 🎵 Active Track Display */
-    #trackTitleDisplay {
-        position: fixed;
-        bottom: 535px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 17px;
-        font-weight: bold;
-        color: #222;
-        background: rgba(255, 255, 255, 0.95);
-        padding: 6px 18px;
-        border-radius: 20px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        z-index: 10;
-        text-transform: capitalize;
-    }
-
     /* 🎛️ Control Bar Container */
     #controlBar {
         position: fixed;
-        bottom: 485px;
+        bottom: 495px;
         left: 50%;
         transform: translateX(-50%);
         display: flex;
@@ -122,7 +105,7 @@
         padding: 6px 16px;
         border-radius: 30px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-        z-index: 10;
+        z-index: 100;
     }
 
     .separator {
@@ -132,7 +115,7 @@
         margin: 0 2px;
     }
 
-    /* ⏱ Audio Time Display */
+    /* ⏱ Unified Audio Track Name & Time Display */
     #audioTimeDisplay {
         position: fixed;
         bottom: 445px;
@@ -140,13 +123,14 @@
         transform: translateX(-50%);
         font-size: 16px;
         font-weight: bold;
-        color: #333;
+        color: #222;
         background: rgba(255, 255, 255, 0.95);
-        padding: 4px 14px;
+        padding: 6px 18px;
         border-radius: 20px;
         box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-        z-index: 10;
-        letter-spacing: 1px;
+        z-index: 100;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
     }
 
     /* ▶ Play Button */
@@ -162,6 +146,7 @@
         color: white;
         font-size: 45px;
         border: none;
+        z-index: 100;
     }
 
     #textBody {
@@ -190,6 +175,7 @@
         color: white;
         font-size: 28px;
         border: none;
+        z-index: 100;
     }
 
     /* ⏩ Forward 5 sec */
@@ -204,6 +190,7 @@
         color: white;
         font-size: 28px;
         border: none;
+        z-index: 100;
     }
 
     .modal-full {
@@ -314,6 +301,7 @@
         color: black;
         border: none;
         transition: background 0.3s ease;
+        z-index: 1;
     }
 
     /* Modals / Overlays */
@@ -325,7 +313,7 @@
         width: 100%;
         height: 100%;
         background: rgba(0,0,0,0.7);
-        z-index: 1000;
+        z-index: 2000;
         box-sizing: border-box;
         padding: 20px;
     }
@@ -389,7 +377,7 @@
 
 <!-- Top Control Area -->
 <div class="top-bar">
-    <div></div> <!-- Spacer -->
+    <div></div>
     <div class="nav-cluster">
         <button class="action-btn" id="pdfViewerBtn" title="PDF Viewer">📄</button>
         <button class="action-btn" id="textViewerBtn" title="Text Viewer">📖</button>
@@ -409,9 +397,6 @@
 <audio id="clickShort" src="click.mp3" preload="auto"></audio>
 <audio id="clickLong" src="longclick.mp3" preload="auto"></audio>
 
-<!-- Currently Playing File Display -->
-<div id="trackTitleDisplay">haddad</div>
-
 <!-- Control Bar Container -->
 <div id="controlBar">
     <button class="nav-btn" id="prevAudioBtn">◀</button>
@@ -420,8 +405,8 @@
     <button class="action-btn" id="resetBtn" title="Reset Counter">📿</button>
 </div>
 
-<!-- Audio Time Display -->
-<div id="audioTimeDisplay">00:00 / 00:00</div>
+<!-- Combined Track Name & Time Display -->
+<div id="audioTimeDisplay">haddad | 00:00 / 00:00</div>
 
 <!-- Player Controls -->
 <button id="backBtn">⏪</button>
@@ -495,17 +480,23 @@ if ('serviceWorker' in navigator) {
 function updateHijriDate() {
     try {
         const options = {
-            calendar: 'islamic-umalqura',
             day: 'numeric',
             month: 'long',
             year: 'numeric'
         };
-        const formatter = new Intl.DateTimeFormat('ar-SA', options);
+        const formatter = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura', options);
         document.getElementById("hijriDateDisplay").innerText = formatter.format(new Date());
     } catch (e) {
-        document.getElementById("hijriDateDisplay").innerText = "";
+        try {
+            const fallbackFormatter = new Intl.DateTimeFormat('ar-SA', { day: 'numeric', month: 'long', year: 'numeric' });
+            document.getElementById("hijriDateDisplay").innerText = fallbackFormatter.format(new Date());
+        } catch(err) {
+            document.getElementById("hijriDateDisplay").innerText = "";
+            console.error("Hijri formatting failed:", err);
+        }
     }
 }
+
 updateHijriDate();
 
 let currentFontProfile = parseInt(localStorage.getItem("savedFontProfile") || 1);
@@ -554,7 +545,6 @@ function closeModal(id) {
 
 const audio = document.getElementById("audioPlayer");
 const audioSource = document.getElementById("audioSource");
-const trackTitleDisplay = document.getElementById("trackTitleDisplay");
 const audioTimeDisplay = document.getElementById("audioTimeDisplay");
 
 const btn = document.getElementById("toggleBtn");
@@ -590,10 +580,12 @@ function formatTime(seconds) {
     return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
 }
 
+/* Dynamically updates both Track Name and Live Playback Time */
 function updateAudioTime() {
+    const trackName = audioFiles[currentAudioIndex].replace('.mp3', '');
     const current = formatTime(audio.currentTime);
     const duration = formatTime(audio.duration);
-    audioTimeDisplay.innerText = `${current} / ${duration}`;
+    audioTimeDisplay.innerText = `${trackName} | ${current} / ${duration}`;
 }
 
 audio.addEventListener("timeupdate", updateAudioTime);
@@ -604,15 +596,13 @@ function loadTrack(index) {
     const filename = audioFiles[currentAudioIndex];
     const trackName = filename.replace('.mp3', '');
     
-    // Header stays permanently as "Adhkars", playing track updates in trackTitleDisplay
-    trackTitleDisplay.innerText = trackName;
     document.title = "Adhkars - " + trackName.charAt(0).toUpperCase() + trackName.slice(1);
     
     audio.pause();
     audioSource.src = filename;
     audio.load();
     btn.innerText = "▶";
-    audioTimeDisplay.innerText = "00:00 / 00:00";
+    audioTimeDisplay.innerText = `${trackName} | 00:00 / 00:00`;
 }
 
 document.getElementById("prevAudioBtn").addEventListener("click", () => {
