@@ -4,7 +4,7 @@
     <link rel="manifest" href="manifest.json">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-    <title>Adhkars</title>
+    <title>Adhkar</title>
 
     <style>
     body {
@@ -131,6 +131,7 @@
         z-index: 100;
         letter-spacing: 0.5px;
         white-space: nowrap;
+        text-transform: capitalize;
     }
 
     /* ▶ Play Button */
@@ -385,13 +386,14 @@
     </div>
 </div>
 
-<h2 id="pageTitle">🕌 Adhkars 🕋</h2>
+<h2 id="pageTitle">🕌 Adhkar 🕋</h2>
 <br>
 <div id="hijriDateDisplay">Loading Date...</div>
 <hr>
 
 <audio id="audioPlayer" preload="auto">
-    <source id="audioSource" src="haddad.mp3" type="audio/mpeg">
+    <!-- If your primary track filename changed, update src accordingly -->
+    <source id="audioSource" src="adhkar.mp3" type="audio/mpeg">
 </audio>
 
 <audio id="clickShort" src="click.mp3" preload="auto"></audio>
@@ -406,7 +408,7 @@
 </div>
 
 <!-- Combined Track Name & Time Display -->
-<div id="audioTimeDisplay">haddad | 00:00 / 00:00</div>
+<div id="audioTimeDisplay">adhkar | 00:00 / 00:00</div>
 
 <!-- Player Controls -->
 <button id="backBtn">⏪</button>
@@ -553,10 +555,10 @@ const resetBtn = document.getElementById("resetBtn");
 const backBtn = document.getElementById("backBtn");
 const forwardBtn = document.getElementById("forwardBtn");
 
-const audioFiles = ["haddad.mp3", "names.mp3", "yaseen.mp3", "kahf.mp3"];
+const audioFiles = ["adhkar.mp3", "names.mp3", "yaseen.mp3", "kahf.mp3"];
 let currentAudioIndex = 0;
 
-const txtFiles = ["yaseen.txt", "kahf.txt", "99names.txt", "haddad.txt", "salam-rasool.txt"];
+const txtFiles = ["yaseen.txt", "kahf.txt", "99names.txt", "adhkar.txt", "salam-rasool.txt"];
 let currentTxtIndex = 0;
 
 const pdfFiles = [
@@ -580,7 +582,6 @@ function formatTime(seconds) {
     return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
 }
 
-/* Dynamically updates both Track Name and Live Playback Time */
 function updateAudioTime() {
     const trackName = audioFiles[currentAudioIndex].replace('.mp3', '');
     const current = formatTime(audio.currentTime);
@@ -596,7 +597,7 @@ function loadTrack(index) {
     const filename = audioFiles[currentAudioIndex];
     const trackName = filename.replace('.mp3', '');
     
-    document.title = "Adhkars - " + trackName.charAt(0).toUpperCase() + trackName.slice(1);
+    document.title = "Adhkar - " + trackName.charAt(0).toUpperCase() + trackName.slice(1);
     
     audio.pause();
     audioSource.src = filename;
