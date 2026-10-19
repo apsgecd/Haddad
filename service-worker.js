@@ -1,11 +1,11 @@
-const CACHE_NAME = "haddad-player-cache-v2";
+const CACHE_NAME = "haddad-player-cache-v3";
 
 const ASSETS_TO_CACHE = [
-  "./",                        // Root context
-  "./manifest.json",           // Manifest
-  "./index.html",              // Main page
-  
-  // App Icons
+  "./",                        // Root path
+  "./index.html",              // HTML Page
+  "./manifest.json",           // App Manifest
+
+  // Icons
   "./icon192.png",
   "./icon512.png",
 
@@ -32,18 +32,17 @@ const ASSETS_TO_CACHE = [
   "./pdf/Mayyith-Prayer.pdf"
 ];
 
-// Install event: pre-cache all critical resources
+// Install Event: Pre-cache all core assets
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log("[ServiceWorker] Pre-caching offline assets");
       return cache.addAll(ASSETS_TO_CACHE);
-    })
+    }).then(() => self.skipWaiting())
   );
-  self.skipWaiting();
 });
 
-// Activate event: clean up legacy caches
+// Activate Event: Clear outdated cache stores
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
@@ -51,39 +50,54 @@ self.addEventListener("activate", (event) => {
         keys
           .filter((key) => key !== CACHE_NAME)
           .map((key) => {
-            console.log("[ServiceWorker] Removing old cache:", key);
+            console.log("[ServiceWorker] Removing stale cache:", key);
             return caches.delete(key);
           })
       )
-    )
+    ).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
-// Fetch event: Cache-First strategy with range-request fallback for audio & PDFs
+// Fetch Event: Cache-First + Safe Handling of 206 Partial Content (Range Requests)
 self.addEventListener("fetch", (event) => {
-  // Only handle GET requests
   if (event.request.method !== "GET") return;
 
   event.respondWith(
     caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
+      // 1. Return cached match immediately if available offline
       if (cachedResponse) {
         return cachedResponse;
       }
 
-      // Fallback to network fetch if not in cache
-      return fetch(event.request).then((response) => {
-        // Only cache valid basic responses
-        if (response && response.status === 200 && response.type === 'basic') {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, clone);
-          });
+      // 2. Safely handle Range Requests (for audio/PDF streaming)
+      let fetchRequest = event.request;
+      if (event.request.headers.has('range')) {
+        const cleanHeaders = new Headers(event.request.headers);
+        cleanHeaders.delete('range');
+        fetchRequest = new Request(event.request, { headers: cleanHeaders });
+      }
+
+      // 3. Network Fetch with Clean Response Caching
+      return fetch(fetchRequest).then((networkResponse) => {
+        // Prevent caching invalid or partial responses
+        if (
+          !networkResponse || 
+          networkResponse.status !== 200 || 
+          networkResponse.type !== 'basic'
+        ) {
+          return networkResponse;
         }
-        return response;
+
+        // Cache full HTTP 200 response
+        const responseToCache = networkResponse.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseToCache);
+        });
+
+        return networkResponse;
       });
     }).catch(() => {
-      // Offline fallback handling
+      // Offline fallback
       return caches.match("./index.html");
     })
   );
