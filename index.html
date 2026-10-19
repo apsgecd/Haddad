@@ -4,7 +4,7 @@
     <link rel="manifest" href="manifest.json">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-    <title>Adhkars🤲🏼</title>
+    <title>Adhkars</title>
 
     <style>
     body {
@@ -47,56 +47,19 @@
         margin-top: -10px;
         margin-bottom: 15px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        direction: rtl; /* Sets natural layout order for Arabic letters and dates */
+        direction: rtl;
     }
         
     /* Font Profile Classes */
-    .font-profile-1 {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
-        font-size: 22px !important;
-    }
-
-    .font-profile-2 {
-        font-family: 'Traditional Arabic', 'Times New Roman', serif !important;
-        font-size: 23px !important;
-        font-weight: bold;
-    }
-
-    .font-profile-3 {
-        font-family: Arial, 'Simplified Arabic', sans-serif !important;
-        font-size: 24px !important;
-    }
-
-    .font-profile-4 {
-        font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif !important;
-        font-size: 20px !important;
-    }
-
-    .font-profile-5 {
-        font-family: 'Tajawal', Arial, sans-serif !important;
-        font-size: 18px !important;
-    }
-
-    .font-profile-6 {
-        font-family: 'Noto Naskh Arabic', 'Times New Roman', serif !important;
-        font-size: 16px !important;
-    }
-
-    .font-profile-7 {
-        font-family: 'Noto Sans Arabic', Arial, sans-serif !important;
-        font-size: 14px !important;
-    }
-
-    .font-profile-8 {
-        font-family: 'Amiri', serif !important;
-        font-size: 12px !important;
-        font-weight: bold;
-    }
-
-    .font-profile-9 {
-        font-family: 'IBM Plex Sans Arabic', sans-serif !important;
-        font-size: 20px !important;
-    }
+    .font-profile-1 { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important; font-size: 22px !important; }
+    .font-profile-2 { font-family: 'Traditional Arabic', 'Times New Roman', serif !important; font-size: 23px !important; font-weight: bold; }
+    .font-profile-3 { font-family: Arial, 'Simplified Arabic', sans-serif !important; font-size: 24px !important; }
+    .font-profile-4 { font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif !important; font-size: 20px !important; }
+    .font-profile-5 { font-family: 'Tajawal', Arial, sans-serif !important; font-size: 18px !important; }
+    .font-profile-6 { font-family: 'Noto Naskh Arabic', 'Times New Roman', serif !important; font-size: 16px !important; }
+    .font-profile-7 { font-family: 'Noto Sans Arabic', Arial, sans-serif !important; font-size: 14px !important; }
+    .font-profile-8 { font-family: 'Amiri', serif !important; font-size: 12px !important; font-weight: bold; }
+    .font-profile-9 { font-family: 'IBM Plex Sans Arabic', sans-serif !important; font-size: 20px !important; }
 
     .nav-cluster {
         display: flex;
@@ -107,7 +70,7 @@
     .nav-btn {
         width: 40px;
         height: 40px;
-        font-size: 20px;
+        font-size: 18px;
         border-radius: 50%;
         border: 1px solid #ccc;
         background: #fff;
@@ -124,34 +87,64 @@
         cursor: pointer;
     }
 
-    #infoBtn {
-        background: #007bff;
-        color: white;
+    #infoBtn { background: #007bff; color: white; }
+    #textViewerBtn { background: #28a745; color: white; }
+    #pdfViewerBtn { background: #dc3545; color: white; }
+
+    /* 🎵 Active Track Display */
+    #trackTitleDisplay {
+        position: fixed;
+        bottom: 535px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 17px;
+        font-weight: bold;
+        color: #222;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 6px 18px;
+        border-radius: 20px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        z-index: 10;
+        text-transform: capitalize;
     }
 
-    #textViewerBtn {
-        background: #28a745;
-        color: white;
+    /* 🎛️ Control Bar Container */
+    #controlBar {
+        position: fixed;
+        bottom: 485px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        background: #ffffff;
+        padding: 6px 16px;
+        border-radius: 30px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        z-index: 10;
     }
 
-    #pdfViewerBtn {
-        background: #dc3545;
-        color: white;
+    .separator {
+        width: 1px;
+        height: 24px;
+        background-color: #ccc;
+        margin: 0 2px;
     }
 
     /* ⏱ Audio Time Display */
     #audioTimeDisplay {
         position: fixed;
-        bottom: 450px;
+        bottom: 445px;
         left: 50%;
         transform: translateX(-50%);
-        font-size: 18px;
+        font-size: 16px;
         font-weight: bold;
         color: #333;
         background: rgba(255, 255, 255, 0.95);
-        padding: 5px 15px;
+        padding: 4px 14px;
         border-radius: 20px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.12);
         z-index: 10;
         letter-spacing: 1px;
     }
@@ -159,15 +152,15 @@
     /* ▶ Play Button */
     #toggleBtn {
         position: fixed;
-        bottom: 350px;
+        bottom: 345px;
         left: 50%;
         transform: translateX(-50%);
-        width: 90px;
-        height: 90px;
+        width: 85px;
+        height: 85px;
         border-radius: 50%;
         background: red;
         color: white;
-        font-size: 50px;
+        font-size: 45px;
         border: none;
     }
 
@@ -188,28 +181,28 @@
     /* ⏪ Back 5 sec */
     #backBtn {
         position: fixed;
-        bottom: 350px;
-        left: calc(50% - 110px);
-        width: 70px;
-        height: 70px;
+        bottom: 345px;
+        left: calc(50% - 105px);
+        width: 65px;
+        height: 65px;
         border-radius: 50%;
         background: #444;
         color: white;
-        font-size: 30px;
+        font-size: 28px;
         border: none;
     }
 
     /* ⏩ Forward 5 sec */
     #forwardBtn {
         position: fixed;
-        bottom: 350px;
+        bottom: 345px;
         left: calc(50% + 40px);
-        width: 70px;
-        height: 70px;
+        width: 65px;
+        height: 65px;
         border-radius: 50%;
         background: #444;
         color: white;
-        font-size: 30px;
+        font-size: 28px;
         border: none;
     }
 
@@ -291,7 +284,6 @@
         -webkit-overflow-scrolling: touch;
     }
 
-    /* PDF Embed Frame Container */
     .pdf-body-full {
         flex-grow: 1;
         width: 100%;
@@ -397,11 +389,7 @@
 
 <!-- Top Control Area -->
 <div class="top-bar">
-    <div class="nav-cluster">
-        <button class="nav-btn" id="prevAudioBtn">◀</button>
-        <button class="nav-btn" id="nextAudioBtn">▶</button>
-    </div>
-    <button class="action-btn" id="resetBtn">📿</button>
+    <div></div> <!-- Spacer -->
     <div class="nav-cluster">
         <button class="action-btn" id="pdfViewerBtn" title="PDF Viewer">📄</button>
         <button class="action-btn" id="textViewerBtn" title="Text Viewer">📖</button>
@@ -421,8 +409,21 @@
 <audio id="clickShort" src="click.mp3" preload="auto"></audio>
 <audio id="clickLong" src="longclick.mp3" preload="auto"></audio>
 
+<!-- Currently Playing File Display -->
+<div id="trackTitleDisplay">haddad</div>
+
+<!-- Control Bar Container -->
+<div id="controlBar">
+    <button class="nav-btn" id="prevAudioBtn">◀</button>
+    <button class="nav-btn" id="nextAudioBtn">▶</button>
+    <div class="separator"></div>
+    <button class="action-btn" id="resetBtn" title="Reset Counter">📿</button>
+</div>
+
+<!-- Audio Time Display -->
 <div id="audioTimeDisplay">00:00 / 00:00</div>
 
+<!-- Player Controls -->
 <button id="backBtn">⏪</button>
 <button id="toggleBtn">▶</button>
 <button id="forwardBtn">⏩</button>
@@ -483,11 +484,10 @@
 </div>
 
 <script>
-/* 🌐 Register Service Worker for Offline Execution */
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('service-worker.js')
-            .then(reg => console.log('ServiceWorker registered successfully:', reg.scope))
+            .then(reg => console.log('ServiceWorker registered:', reg.scope))
             .catch(err => console.error('ServiceWorker registration failed:', err));
     });
 }
@@ -518,305 +518,4 @@ initialTextTarget.classList.add(`font-profile-${currentFontProfile}`);
 document.getElementById("changeFontBtn").addEventListener("click", () => {
     const textTarget = document.getElementById("textBody");
     textTarget.classList.remove(`font-profile-${currentFontProfile}`);
-    currentFontProfile = (currentFontProfile % totalFontProfiles) + 1;
-    textTarget.classList.add(`font-profile-${currentFontProfile}`);
-    localStorage.setItem("savedFontProfile", currentFontProfile);
-    haptic("short");
-
-    setTimeout(() => {
-        const computedStyles = window.getComputedStyle(textTarget);
-        const rawFontFamily = computedStyles.getPropertyValue('font-family');
-        const primaryFont = rawFontFamily.split(',')[0].replace(/['"]/g, '').trim();
-        alert(`Active Font: ${primaryFont}`);
-    }, 50);
-});
-        
-let isDarkTheme = false;
-
-document.getElementById("invertColorsBtn").addEventListener("click", () => {
-    const modalTarget = document.getElementById("textModal");
-    isDarkTheme = !isDarkTheme;
-    if (isDarkTheme) {
-        modalTarget.classList.add("dark-mode-view");
-    } else {
-        modalTarget.classList.remove("dark-mode-view");
-    }
-    haptic("short");
-});
-
-function openModal(id) {
-    document.getElementById(id).style.display = "block";
-}
-
-function closeModal(id) {
-    document.getElementById(id).style.display = "none";
-}
-
-const audio = document.getElementById("audioPlayer");
-const audioSource = document.getElementById("audioSource");
-const pageTitle = document.getElementById("pageTitle");
-const audioTimeDisplay = document.getElementById("audioTimeDisplay");
-
-const btn = document.getElementById("toggleBtn");
-const counterBtn = document.getElementById("counterBtn");
-const resetBtn = document.getElementById("resetBtn");
-const backBtn = document.getElementById("backBtn");
-const forwardBtn = document.getElementById("forwardBtn");
-
-const audioFiles = ["haddad.mp3", "names.mp3", "yaseen.mp3", "kahf.mp3"];
-let currentAudioIndex = 0;
-
-const txtFiles = ["yaseen.txt", "kahf.txt", "99names.txt", "haddad.txt", "salam-rasool.txt"];
-let currentTxtIndex = 0;
-
-const pdfFiles = [
-    "pdf/Asmaul-Badar.pdf",
-    "pdf/Dua.pdf",
-    "pdf/Khatahm-Quran-Dua.pdf",
-    "pdf/Manqoos-Mouleed.pdf",
-    "pdf/Mayyith-Prayer.pdf"
-];
-let currentPdfIndex = 0;
-    
-const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
-
-let count = parseInt(localStorage.getItem("zikrCount") || 0);
-counterBtn.innerText = count;
-
-function formatTime(seconds) {
-    if (isNaN(seconds) || seconds < 0) return "00:00";
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
-}
-
-function updateAudioTime() {
-    const current = formatTime(audio.currentTime);
-    const duration = formatTime(audio.duration);
-    audioTimeDisplay.innerText = `${current} / ${duration}`;
-}
-
-audio.addEventListener("timeupdate", updateAudioTime);
-audio.addEventListener("loadedmetadata", updateAudioTime);
-
-function loadTrack(index) {
-    currentAudioIndex = index;
-    const filename = audioFiles[currentAudioIndex];
-    const trackName = filename.replace('.mp3', '');
-    
-    pageTitle.innerHTML = `🕌 ${trackName} 🕋`;
-    document.title = trackName.charAt(0).toUpperCase() + trackName.slice(1);
-    
-    audio.pause();
-    audioSource.src = filename;
-    audio.load();
-    btn.innerText = "▶";
-    audioTimeDisplay.innerText = "00:00 / 00:00";
-}
-
-document.getElementById("prevAudioBtn").addEventListener("click", () => {
-    let index = currentAudioIndex - 1 < 0 ? audioFiles.length - 1 : currentAudioIndex - 1;
-    loadTrack(index);
-});
-
-document.getElementById("nextAudioBtn").addEventListener("click", () => {
-    let index = currentAudioIndex + 1 >= audioFiles.length ? 0 : currentAudioIndex + 1;
-    loadTrack(index);
-});
-
-function loadTxtFile(index) {
-    currentTxtIndex = index;
-    const currentFile = txtFiles[currentTxtIndex];
-    document.getElementById("txtFileName").innerText = currentFile;
-    
-    fetch(currentFile)
-        .then(res => {
-            if(!res.ok) throw new Error(`HTTP Status error ${res.status}`);
-            return res.text();
-        })
-        .then(text => {
-            document.getElementById("textBody").innerText = text;
-        })
-        .catch(err => {
-            document.getElementById("textBody").innerText = `Failed to process layout resource file: ${currentFile}\nVerify file availability at local root directory context.`;
-        });
-}
-
-document.getElementById("prevTxtBtn").addEventListener("click", () => {
-    let idx = currentTxtIndex - 1 < 0 ? txtFiles.length - 1 : currentTxtIndex - 1;
-    loadTxtFile(idx);
-});
-
-document.getElementById("nextTxtBtn").addEventListener("click", () => {
-    let idx = currentTxtIndex + 1 >= txtFiles.length ? 0 : currentTxtIndex + 1;
-    loadTxtFile(idx);
-});
-
-document.getElementById("textViewerBtn").addEventListener("click", () => {
-    openModal("textModal");
-    loadTxtFile(currentTxtIndex);
-});
-
-function loadPdfFile(index) {
-    currentPdfIndex = index;
-    const currentFile = pdfFiles[currentPdfIndex];
-    const cleanName = currentFile.replace('pdf/', '');
-    document.getElementById("pdfFileName").innerText = cleanName;
-    document.getElementById("pdfFrame").src = currentFile;
-}
-
-document.getElementById("prevPdfBtn").addEventListener("click", () => {
-    let idx = currentPdfIndex - 1 < 0 ? pdfFiles.length - 1 : currentPdfIndex - 1;
-    loadPdfFile(idx);
-});
-
-document.getElementById("nextPdfBtn").addEventListener("click", () => {
-    let idx = currentPdfIndex + 1 >= pdfFiles.length ? 0 : currentPdfIndex + 1;
-    loadPdfFile(idx);
-});
-
-document.getElementById("pdfViewerBtn").addEventListener("click", () => {
-    openModal("pdfModal");
-    loadPdfFile(currentPdfIndex);
-});
-
-document.getElementById("infoBtn").addEventListener("click", async () => {
-    openModal("logsModal");
-    const logContainer = document.getElementById("logsBody");
-    logContainer.innerText = "Querying environment descriptors...";
-    
-    let logs = `[System Parameters]\nTimestamp: ${new Date().toISOString()}\nPlatform OS Target: ${navigator.platform}\nIOS Device Flag: ${isIOS}\nServiceWorker Active: ${'serviceWorker' in navigator && !!navigator.serviceWorker.controller}\n\n`;
-    logs += `Designed by : Jaleel1618 ☺\n\n`;
-    
-    if ('caches' in window) {
-        logs += `[Cache Storage Subsystem]\n`;
-        const keys = await caches.keys();
-        if (keys.length === 0) {
-            logs += "No active local cache stores mapped.\nTip: Refresh the page once to trigger ServiceWorker caching.\n";
-        }
-        for (let key of keys) {
-            logs += `Cache Target Name: "${key}"\n`;
-            const openedCache = await caches.open(key);
-            const requests = await openedCache.keys();
-            
-            requests.forEach(req => {
-                const urlParts = req.url.split('/');
-                const filename = urlParts[urlParts.length - 1] || urlParts[urlParts.length - 2] || req.url;
-                logs += `  -> Cached: ${filename}\n`;
-            });
-        }
-    } else {
-        logs += `\n[Cache Storage Subsystem]\nNot supported in environment context.\n`;
-    }
-    
-    logContainer.innerText = logs;
-});
-
-btn.addEventListener("click", () => {
-    if (audio.paused) {
-        audio.play().catch(() => alert("Tap again to allow audio"));
-        btn.innerText = "⏸";
-    } else {
-        audio.pause();
-        btn.innerText = "▶";
-    }
-});
-
-backBtn.addEventListener("click", () => {
-    audio.currentTime = Math.max(0, audio.currentTime - 5);
-});
-
-forwardBtn.addEventListener("click", () => {
-    audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
-});
-
-function haptic(type) {
-    if (isIOS) {
-        const clickShort = document.getElementById("clickShort");
-        const clickLong = document.getElementById("clickLong");
-        
-        if (type === "short") {
-            clickShort.currentTime = 0;
-            clickShort.play().catch(()=>{});
-        }
-        if (type === "long") {
-            clickLong.currentTime = 0;
-            clickLong.play().catch(()=>{});
-        }
-        if (type === "double") {
-            clickLong.currentTime = 0;
-            clickLong.play().catch(()=>{});
-            setTimeout(() => {
-                clickLong.currentTime = 0;
-                clickLong.play().catch(()=>{});
-            }, 200);
-        }
-    } else {
-        if (type === "short") navigator.vibrate(40);
-        if (type === "long") navigator.vibrate(250);
-        if (type === "double") navigator.vibrate([200, 150, 200]);
-    }
-}
-
-counterBtn.addEventListener("click", () => {
-    if (deferredPrompt) return;
-
-    count++;
-    counterBtn.innerText = count;
-    localStorage.setItem("zikrCount", count);
-
-    if (count % 33 === 0) {
-        haptic("double");
-    } else if (count % 11 === 0) {
-        haptic("long");
-    } else {
-        haptic("short");
-    }
-});
-
-resetBtn.addEventListener("click", () => {
-    if (confirm("Reset the counter?")) {
-        count = 0;
-        counterBtn.innerText = 0;
-        localStorage.setItem("zikrCount", 0);
-        haptic("double");
-    }
-});
-
-let deferredPrompt;
-
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    
-    const counterBtn = document.getElementById("counterBtn");
-    counterBtn.innerText = "✨ Install App";
-    counterBtn.style.background = "#28a745";
-    counterBtn.style.color = "white";
-});
-
-document.getElementById("counterBtn").addEventListener("click", async (e) => {
-    if (deferredPrompt) {
-        e.stopImmediatePropagation(); 
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        deferredPrompt = null;
-        
-        const counterBtn = document.getElementById("counterBtn");
-        counterBtn.innerText = count;
-        counterBtn.style.background = "grey";
-        counterBtn.style.color = "black";
-    }
-});
-
-window.addEventListener('appinstalled', (evt) => {
-    const counterBtn = document.getElementById("counterBtn");
-    deferredPrompt = null;
-    counterBtn.innerText = count;
-    counterBtn.style.background = "grey";
-    counterBtn.style.color = "black";
-});
-</script>
-
-</body>
-</html>
+    currentFontProfile = (currentFontProfile %
