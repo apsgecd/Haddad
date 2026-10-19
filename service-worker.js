@@ -1,64 +1,90 @@
-const CACHE_NAME = "haddad-player-cache-v1";
+const CACHE_NAME = "haddad-player-cache-v2";
 
 const ASSETS_TO_CACHE = [
-  "./",                        // root context
-  "./manifest.json",           // manifest
-  "./index.html",              // main page
-  "./haddad.mp3",              
-  "./names.mp3",               // Added new tracks
-  "./yaseen.mp3",              
-  "./kahf.mp3",                
-  "./click.mp3",  
-  "./longclick.mp3",           // Added long haptic audio fallback
+  "./",                        // Root context
+  "./manifest.json",           // Manifest
+  "./index.html",              // Main page
+  
+  // App Icons
   "./icon192.png",
   "./icon512.png",
-  "./names.txt",               // Added documentation files
-  "./kahf.txt",
-  "./haddad.txt",
-  "./yaseen.txt"
 
+  // Audio Files
+  "./haddad.mp3",
+  "./names.mp3",
+  "./yaseen.mp3",
+  "./kahf.mp3",
+  "./click.mp3",
+  "./longclick.mp3",
+
+  // Text Files
+  "./yaseen.txt",
+  "./kahf.txt",
+  "./99names.txt",
+  "./haddad.txt",
+  "./salam-rasool.txt",
+
+  // PDF Files
+  "./pdf/Asmaul-Badar.pdf",
+  "./pdf/Dua.pdf",
+  "./pdf/Khatahm-Quran-Dua.pdf",
+  "./pdf/Manqoos-Mouleed.pdf",
+  "./pdf/Mayyith-Prayer.pdf"
 ];
 
-// Install event: cache everything
+// Install event: pre-cache all critical resources
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
+      console.log("[ServiceWorker] Pre-caching offline assets");
       return cache.addAll(ASSETS_TO_CACHE);
     })
   );
   self.skipWaiting();
 });
 
-// Activate event: remove old caches
+// Activate event: clean up legacy caches
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(
         keys
           .filter((key) => key !== CACHE_NAME)
-          .map((key) => caches.delete(key))
+          .map((key) => {
+            console.log("[ServiceWorker] Removing old cache:", key);
+            return caches.delete(key);
+          })
       )
     )
   );
   self.clients.claim();
 });
 
-// Fetch event: network first, fallback to cache
+// Fetch event: Cache-First strategy with range-request fallback for audio & PDFs
 self.addEventListener("fetch", (event) => {
+  // Only handle GET requests
+  if (event.request.method !== "GET") return;
+
   event.respondWith(
-    fetch(event.request)
-      .then((response) => {
-        // Guard against caching invalid network responses or third-party scopes
-        if (!response || response.status !== 200 || response.type !== 'basic') {
-          return response;
+    caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+
+      // Fallback to network fetch if not in cache
+      return fetch(event.request).then((response) => {
+        // Only cache valid basic responses
+        if (response && response.status === 200 && response.type === 'basic') {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, clone);
+          });
         }
-        // Save fresh copy to cache
-        const clone = response.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, clone);
-        });
         return response;
-      })
-      .catch(() => caches.match(event.request))
+      });
+    }).catch(() => {
+      // Offline fallback handling
+      return caches.match("./index.html");
+    })
   );
 });
