@@ -27,7 +27,7 @@ const ASSETS_TO_CACHE = [
   // PDF Files
   "./pdf/Asmaul-Badar.pdf",
   "./pdf/Dua.pdf",
-  "./pdf/Khatahm-Quran-Dua.pdf",
+  "./pdf/Khatham-Quran-Dua.pdf",
   "./pdf/Manqoos-Mouleed.pdf",
   "./pdf/Mayyith-Prayer.pdf"
 ];
