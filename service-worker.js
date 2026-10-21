@@ -10,7 +10,7 @@ const ASSETS_TO_CACHE = [
   "./icon512.png",
 
   // Audio Files
-  "./adhkar.mp3",
+  "./haddad.mp3",
   "./names.mp3",
   "./yaseen.mp3",
   "./kahf.mp3",
@@ -21,7 +21,7 @@ const ASSETS_TO_CACHE = [
   "./yaseen.txt",
   "./kahf.txt",
   "./99names.txt",
-  "./adhkar.txt",
+  "./haddad.txt",
   "./salam-rasool.txt",
 
   // PDF Files
