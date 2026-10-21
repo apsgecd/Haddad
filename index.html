@@ -598,7 +598,7 @@ function loadTrack(index) {
     const filename = audioFiles[currentAudioIndex];
     const trackName = filename.replace('.mp3', '');
     
-    document.title = "🔊 - " + trackName.charAt(0).toUpperCase() + trackName.slice(1);
+    document.title = "🔊 " + trackName.charAt(0).toUpperCase() + trackName.slice(1);
     
     audio.pause();
     audioSource.src = filename;
