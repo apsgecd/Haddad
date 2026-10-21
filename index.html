@@ -679,7 +679,7 @@ document.getElementById("infoBtn").addEventListener("click", async () => {
     logContainer.innerText = "Querying environment descriptors...";
     
     let logs = `Designed by : Jaleel1618 ☺\n\n [System Parameters]\nTimestamp: ${new Date().toISOString()}\nPlatform OS Target: ${navigator.platform}\nIOS Device Flag: ${isIOS}\nServiceWorker Active: ${'serviceWorker' in navigator && !!navigator.serviceWorker.controller}\n\n`;
-    logs += ';
+    logs +=;
     
     if ('caches' in window) {
         logs += `[Cache Storage Subsystem]\n`;
