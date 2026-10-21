@@ -408,7 +408,7 @@
 </div>
 
 <!-- Combined Track Name & Time Display -->
-<div id="audioTimeDisplay">🔊haddad | 00:00 / 00:00</div>
+<div id="audioTimeDisplay">⏳ loading | 00:00 / 00:00</div>
 
 <!-- Player Controls -->
 <button id="backBtn">⏪</button>
@@ -586,7 +586,7 @@ function updateAudioTime() {
     const trackName = audioFiles[currentAudioIndex].replace('.mp3', '');
     const current = formatTime(audio.currentTime);
     const duration = formatTime(audio.duration);
-    audioTimeDisplay.innerText = `${trackName} | ${current} / ${duration}`;
+    audioTimeDisplay.innerText = `🔊 ${trackName} | ${current} / ${duration}`;
 }
 
 audio.addEventListener("timeupdate", updateAudioTime);
