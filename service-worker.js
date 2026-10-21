@@ -1,4 +1,4 @@
-const CACHE_NAME = 'adhkar-v1';
+const CACHE_NAME = 'adhkar-v19';
 
 // List all files you want to pre-cache
 const ASSETS_TO_CACHE = [
