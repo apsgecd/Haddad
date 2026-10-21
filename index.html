@@ -408,7 +408,7 @@
 </div>
 
 <!-- Combined Track Name & Time Display -->
-<div id="audioTimeDisplay">adhkar | 00:00 / 00:00</div>
+<div id="audioTimeDisplay">🔊haddadh | 00:00 / 00:00</div>
 
 <!-- Player Controls -->
 <button id="backBtn">⏪</button>
@@ -597,7 +597,7 @@ function loadTrack(index) {
     const filename = audioFiles[currentAudioIndex];
     const trackName = filename.replace('.mp3', '');
     
-    document.title = "Adhkar - " + trackName.charAt(0).toUpperCase() + trackName.slice(1);
+    document.title = "🔊 - " + trackName.charAt(0).toUpperCase() + trackName.slice(1);
     
     audio.pause();
     audioSource.src = filename;
