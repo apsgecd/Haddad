@@ -779,7 +779,7 @@ resetBtn.addEventListener("click", () => {
 let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
+    //e.preventDefault();
     deferredPrompt = e;
     
     const counterBtn = document.getElementById("counterBtn");
