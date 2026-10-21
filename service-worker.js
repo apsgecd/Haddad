@@ -7,7 +7,7 @@ const ASSETS_TO_CACHE = [
   './manifest.json',
   // Audio files
   './haddad.mp3',
-  './names.mp3',
+  './names-of-Allah.mp3',
   './yaseen.mp3',
   './kahf.mp3',
   './click.mp3',
