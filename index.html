@@ -679,30 +679,30 @@ document.getElementById("infoBtn").addEventListener("click", async () => {
     logContainer.innerText = "Querying environment descriptors...";
     
     let logs = `Designed by : <b>Jaleel1618</b> ☺<br><br>[System Parameters]<br>Timestamp: ${new Date().toISOString()}<br>Platform OS Target: ${navigator.platform}<br>IOS Device Flag: ${isIOS}<br>ServiceWorker Active: ${'serviceWorker' in navigator && !!navigator.serviceWorker.controller}<br><br>`;
-    logs +=;
     
     if ('caches' in window) {
-        logs += `[Cache Storage Subsystem]\n`;
+        logs += `[Cache Storage Subsystem]<br>`;
         const keys = await caches.keys();
         if (keys.length === 0) {
-            logs += "No active local cache stores mapped.\nTip: Refresh the page once to trigger ServiceWorker caching.\n";
+            logs += "No active local cache stores mapped.<br>Tip: Refresh the page once to trigger ServiceWorker caching.<br>";
         }
         for (let key of keys) {
-            logs += `Cache Target Name: "${key}"\n`;
+            logs += `Cache Target Name: "${key}"<br>`;
             const openedCache = await caches.open(key);
             const requests = await openedCache.keys();
             
             requests.forEach(req => {
                 const urlParts = req.url.split('/');
                 const filename = urlParts[urlParts.length - 1] || urlParts[urlParts.length - 2] || req.url;
-                logs += `  -> Cached: ${filename}\n`;
+                logs += `&nbsp;&nbsp;-> Cached: ${filename}<br>`;
             });
         }
     } else {
-        logs += `\n[Cache Storage Subsystem]\nNot supported in environment context.\n`;
+        logs += `<br>[Cache Storage Subsystem]<br>Not supported in environment context.<br>`;
     }
     
-    logContainer.innerText = logs;
+    // Use innerHTML instead of innerText so <b> and <br> tags render correctly
+    logContainer.innerHTML = logs;
 });
 
 btn.addEventListener("click", () => {
